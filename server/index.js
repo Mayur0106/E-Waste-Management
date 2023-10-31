@@ -24,7 +24,7 @@ app.use(express.static('public'));
 // database
 const db = require('./app/models');
 
-db.sequelize.sync().then(() => {
+db.sequelize.sync({ alter: true }).then(() => {
     console.log('altered Database with { alter: true }');
 });
 
@@ -32,6 +32,9 @@ db.sequelize.sync().then(() => {
 app.get('/', (req, res) => {
     res.send('welcome to e-waste management server!');
 });
+
+require('./app/routes/auth.routes')(app);
+require('./app/routes/collectorAuth.routes')(app);
 
 // setting port
 const PORT = process.env.PORT || 8080;

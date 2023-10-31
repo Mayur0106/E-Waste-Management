@@ -1,11 +1,17 @@
 module.exports = (sequelize, Sequelize) => {
     const User = sequelize.define("users", {
-        id: {
-            type: Sequelize.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
+        // id: {
+        //     type: Sequelize.INTEGER,
+        //     primaryKey: true,
+        //     autoIncrement: true
+        // },
+        profileImage: {
+            type: Sequelize.STRING
         },
-        fullname: {
+        userName: {
+            type: Sequelize.STRING
+        },
+        fullName: {
             type: Sequelize.STRING
         },
         email: {
@@ -21,12 +27,12 @@ module.exports = (sequelize, Sequelize) => {
         address: {
             type: Sequelize.STRING
         },
-        role: {
-            type: Sequelize.STRING
-        },
-        status: {
-            type: Sequelize.STRING
-        },
+        // role: {
+        //     type: Sequelize.STRING
+        // },
+        // status: {
+        //     type: Sequelize.STRING
+        // },
         createdAt: {
             type: Sequelize.DATE,
             defaultValue: Sequelize.NOW
