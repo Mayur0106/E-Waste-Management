@@ -1,17 +1,6 @@
-<<<<<<< HEAD
-import Image from 'next/image'
-import header from './Home/page';
-
-
-export default function Home() {
-  return (
-    <header/>
-   
-  )
-=======
 "use client";
 
-import Image from "next/image";
+// import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
@@ -27,5 +16,4 @@ export default function Home() {
       </Link>
     </div>
   );
->>>>>>> 25138bfebf2c603365acdbd08de15cc2ea1daa83
 }

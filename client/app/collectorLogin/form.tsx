@@ -30,7 +30,7 @@ const Form = () => {
           alt="Your Company"
         />
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-          Login for Users
+          Login for E-Waste Collectors
         </h2>
       </div>
       <div className="mb-4">
@@ -90,7 +90,7 @@ const Form = () => {
       <p className="mt-10 text-center text-sm text-gray-500">
         Not a member?{" "}
         <a
-          href="/userSignUp"
+          href="/collectorSignUp"
           className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
         >
           Sign up now
