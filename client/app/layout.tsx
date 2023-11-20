@@ -1,7 +1,14 @@
+<<<<<<< HEAD
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
 import Example from "./Home/Header";
+=======
+// "use client";
+
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+>>>>>>> f875023c37ad6bddc4fab90c3fea2120f53e06ea
 // import Home from "./Home/home";
 import "./styles/globals.css";
 import { Disclosure } from "@headlessui/react";
