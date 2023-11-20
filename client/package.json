@@ -11,11 +11,18 @@
   "dependencies": {
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
+<<<<<<< HEAD
     "@material-tailwind/react": "^2.1.4",
     "bootstrap": "^5.3.2",
     "material-icons": "^1.13.12",
     "next": "13.5.6",
     "react": "^18.2.0",
+=======
+    "flowbite": "^2.1.1",
+    "flowbite-react": "^0.6.4",
+    "next": "^13.5.6",
+    "react": "^18",
+>>>>>>> 25138bfebf2c603365acdbd08de15cc2ea1daa83
     "react-dom": "^18"
   },
   "devDependencies": {
@@ -27,7 +34,7 @@
     "eslint": "^8",
     "eslint-config-next": "13.5.6",
     "postcss": "^8.4.31",
-    "tailwindcss": "^3.3.3",
+    "tailwindcss": "^3.3.5",
     "typescript": "^5"
   }
 }
