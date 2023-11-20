@@ -2,10 +2,10 @@
 
 const withMT = require("@material-tailwind/react/utils/withMT");
 
-module.exports = withMT ({
+module.exports = withMT({
   content: [
     './app/**/*.{js,ts,jsx,tsx,mdx}', // Note the addition of the `app` directory.
-    './pages/**/*.{js,ts,jsx,tsx,mdx}', 
+    './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
 
     // Or if using `src` directory:
@@ -34,15 +34,10 @@ module.exports = withMT ({
       },
     },
   },
-<<<<<<< HEAD
-  plugins: [],
-});
-=======
   plugins: [
     require('flowbite/plugin'),
   ],
-}
->>>>>>> 25138bfebf2c603365acdbd08de15cc2ea1daa83
+});
 
 
 // const withMT = require("@material-tailwind/react/utils/withMT");
