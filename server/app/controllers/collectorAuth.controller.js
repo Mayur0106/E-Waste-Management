@@ -9,7 +9,7 @@ exports.signup = async (req, res) => {
         const validationRules = {
             centerName: 'required',
             email: 'required|email',
-            phone: 'required|numeric',
+            phone: 'required',
             address: 'required',
             password: 'required|min:6',
         };
@@ -30,6 +30,7 @@ exports.signup = async (req, res) => {
                     address: req.body.address,
                     password: bcrypt.hashSync(req.body.password, 8),
                 }).then((collector) => {
+                    if (!collector) res.status(404).send({ success: false, message: "Collector Not found. signup failed!" });
                     res.status(200).send({
                         success: true,
                         message: "Collector is registered successfully !",
@@ -57,7 +58,7 @@ exports.signin = (req, res) => {
             }
         }).then(async collector => {
             if (!collector) {
-                return res.status(404).send({ success: false, message: "Collector Not found." });
+                return res.status(404).send({ success: false, message: "Collector Not found. signin failed!" });
             }
 
             var passwordIsValid = bcrypt.compareSync(
