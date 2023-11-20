@@ -33,6 +33,10 @@ module.exports = (sequelize, Sequelize) => {
         images: {
             type: Sequelize.STRING
         },
+        password: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
     });
 
     return Collector;
