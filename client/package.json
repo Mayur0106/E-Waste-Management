@@ -17,11 +17,7 @@
     "flowbite": "^2.1.1",
     "flowbite-react": "^0.6.4",
     "material-icons": "^1.13.12",
-<<<<<<< HEAD
-    "next": "^13.5.6",
-=======
     "next": "13.5.6",
->>>>>>> f875023c37ad6bddc4fab90c3fea2120f53e06ea
     "react": "^18.2.0",
     "react-dom": "^18"
   },

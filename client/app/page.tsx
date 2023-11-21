@@ -3,9 +3,9 @@
 // import Image from "next/image";
 import Link from "next/link";
 import Middle from "./Name/page";
-import Mainpage from "./MainPage/page";
+import CardContainer from "./Card/page";
 import layout from "./styles/layout.module.css";
-
+import Footer from "./Footer/page";
 export default function Home() {
   return (
     <div>
@@ -17,7 +17,8 @@ export default function Home() {
         </button>
       </Link>
       <div>{Middle()}</div>
-     
+      <div className={layout.card} >{CardContainer()}</div>
+      <div>{Footer()}</div>
     </div>
    
   );
