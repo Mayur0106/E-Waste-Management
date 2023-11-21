@@ -9,16 +9,13 @@ import layout from "./styles/layout.module.css";
 export default function Home() {
   return (
     <div>
-     <Link href="/login">  
-        <button
-           className={layout.signin}
-          type="button">
+      <Link href="/login">
+        <button className={layout.signin} type="button">
           Sign In
         </button>
       </Link>
-      <div>{Middle()}</div>
-     
+      {/* <div>{Middle()}</div> */}
+      <Middle />
     </div>
-   
   );
 }
