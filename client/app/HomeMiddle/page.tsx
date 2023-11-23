@@ -1,16 +1,16 @@
 import "../styles/globals.css";
 import "animate.css";
 import { Roboto } from "next/font/google";
-import name from "../styles/name.module.css";
+import homemiddle from "../styles/HomeMiddle.module.css";
 import mpage from "../styles/MainPage.module.css";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Middle() {
+export default function HomeMiddle() {
   return (
     <>
       <div>
-        <div className={name.logo}>
+        <div className={homemiddle.logo}>
           <Image
             src="/logo2.png"
             alt="Description of the image"
@@ -18,7 +18,7 @@ export default function Middle() {
             height={300}
           />
         </div>
-        <div className={name.fstyle}>
+        <div className={homemiddle.fstyle}>
           <h1 className="animate__animated animate__backInDown">
             {" "}
             E-waste Recycling

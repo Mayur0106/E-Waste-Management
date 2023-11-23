@@ -1,20 +1,11 @@
-<<<<<<< HEAD
-// "use client";
-
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-=======
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
-import Example from "./Home/Header";
->>>>>>> 1709d3dedf9cdbc243fbb830564ef746bf574347
 // import Home from "./Home/home";
 import "./styles/globals.css";
 import { Disclosure } from "@headlessui/react";
 import Link from "next/link";
-import Example from "./Home/Header";
-// import { Dropdown } from "flowbite";
+import Header from "./Header/page";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,12 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <section className="flex flex-col min-h-screen">
-<<<<<<< HEAD
-      
-      <Example/>
-=======
-      <Example />
->>>>>>> 1709d3dedf9cdbc243fbb830564ef746bf574347
+      <Header/>
 
       {children}
     </section>
