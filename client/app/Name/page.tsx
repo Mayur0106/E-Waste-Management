@@ -12,6 +12,7 @@ export default function Middle() {
       <div>
         <div className={name.logo}>
           <Image
+            className="h-auto w-auto"
             src="/logo2.png"
             alt="Description of the image"
             width={235}

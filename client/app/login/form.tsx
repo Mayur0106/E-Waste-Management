@@ -1,14 +1,30 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
+import axios from "axios";
 
 const Form = () => {
-  // const [username, setUsername] = useState("");
+  // const [email, setUsername] = useState("");
   // const [password, setPassword] = useState("");
-  const [data, setData] = useState({ username: "", password: "" });
+  const [data, setData] = useState({ email: "", password: "" });
   const handleSubmits = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("submit");
+    // console.log("submit");
+    axios
+      .post("http://localhost:8080/api/auth/signin", data)
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.success) {
+          // window.location.href = "/collectorDashboard";
+          console.log("success");
+          alert("Login Successful");
+        } else {
+          alert("Login Failed");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     console.log(data);
   };
 
@@ -26,6 +42,7 @@ const Form = () => {
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img
           className="mx-auto h-10 w-auto"
+          fetchPriority="high"
           src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
           alt="Your Company"
         />
@@ -36,18 +53,18 @@ const Form = () => {
       <div className="mb-4">
         <label
           className="block text-sm font-medium leading-6 text-gray-900"
-          htmlFor="username"
+          htmlFor="email"
         >
-          Username
+          email
         </label>
         <input
           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-          id="username"
+          id="email"
           onChange={handleChange}
-          name="username"
-          value={data.username}
+          name="email"
+          value={data.email}
           type="text"
-          placeholder="Username"
+          placeholder="email"
         />
       </div>
       <div className="mb-6">

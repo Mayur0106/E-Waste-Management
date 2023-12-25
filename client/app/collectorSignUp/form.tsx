@@ -1,11 +1,43 @@
 "use client";
+import { useState } from "react";
+import axios from "axios";
 
 export default function Form() {
+  const [data, setData] = useState({
+    centerName: "",
+    contactPerson: "",
+    email: "",
+    address: "",
+    phoneNumber: "",
+    operatingHours: "",
+    acceptedItems: "",
+    serviceOffered: "",
+    password: "",
+    confirmPassword: "",
+  });
+
   const handleSubmits = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData);
+    axios
+      .post("http://localhost:8080/api/collectorAuth/signup", data)
+      .then((res) => {
+        console.log(res);
+        if (res.status === 200) {
+          console.log("success");
+        } else {
+          console.log("error");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     console.log(data);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    console.log(name, value);
+    setData({ ...data, [name]: value });
   };
 
   return (
@@ -54,6 +86,8 @@ export default function Form() {
                     <input
                       id="centerName"
                       name="centerName"
+                      value={data.centerName}
+                      onChange={handleChange}
                       type="centerName"
                       autoComplete="centerName"
                       className="pl-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -78,6 +112,8 @@ export default function Form() {
                       <input
                         type="text"
                         name="contactPerson"
+                        value={data.contactPerson}
+                        onChange={handleChange}
                         id="contactPerson"
                         autoComplete="contactPerson"
                         className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
@@ -100,6 +136,8 @@ export default function Form() {
                     <input
                       id="email"
                       name="email"
+                      value={data.email}
+                      onChange={handleChange}
                       type="email"
                       autoComplete="email"
                       className="pl-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -120,6 +158,8 @@ export default function Form() {
                     <input
                       id="address"
                       name="address"
+                      value={data.address}
+                      onChange={handleChange}
                       type="address"
                       autoComplete="address"
                       className="pl-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -140,6 +180,8 @@ export default function Form() {
                     <input
                       id="phoneNumber"
                       name="phoneNumber"
+                      value={data.phoneNumber}
+                      onChange={handleChange}
                       type="phoneNumber"
                       autoComplete="phoneNumber"
                       className="pl-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -160,6 +202,8 @@ export default function Form() {
                     <input
                       id="operatingHours"
                       name="operatingHours"
+                      value={data.operatingHours}
+                      onChange={handleChange}
                       type="operatingHours"
                       autoComplete="operatingHours"
                       className="pl-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -180,6 +224,8 @@ export default function Form() {
                     <input
                       id="acceptedItems"
                       name="acceptedItems"
+                      value={data.acceptedItems}
+                      onChange={handleChange}
                       type="acceptedItems"
                       autoComplete="acceptedItems"
                       className="pl-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -200,6 +246,8 @@ export default function Form() {
                     <input
                       id="serviceOffered"
                       name="serviceOffered"
+                      value={data.serviceOffered}
+                      onChange={handleChange}
                       type="serviceOffered"
                       autoComplete="serviceOffered"
                       className="pl-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -220,6 +268,8 @@ export default function Form() {
                     <input
                       id="password"
                       name="password"
+                      value={data.password}
+                      onChange={handleChange}
                       type="password"
                       autoComplete="password"
                       className="pl-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -240,6 +290,8 @@ export default function Form() {
                     <input
                       id="confirmPassword"
                       name="confirmPassword"
+                      value={data.confirmPassword}
+                      onChange={handleChange}
                       type="password"
                       autoComplete="password"
                       className="pl-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"

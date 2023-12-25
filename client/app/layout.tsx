@@ -21,10 +21,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <section className="flex flex-col min-h-screen">
-      <Example />
+    <html lang="en">
+      <head></head>
+      <body suppressHydrationWarning={true}>
+        <section className="flex flex-col min-h-screen">
+          <Example />
 
-      {children}
-    </section>
+          {children}
+        </section>
+      </body>
+    </html>
   );
 }
