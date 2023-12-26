@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
-import Example from "./Home/Header";
 // import Home from "./Home/home";
 import "./styles/globals.css";
 import { Disclosure } from "@headlessui/react";
 import Link from "next/link";
-// import { Dropdown } from "flowbite";
+import Header from "./Header/page";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,7 +24,7 @@ export default function RootLayout({
       <head></head>
       <body suppressHydrationWarning={true}>
         <section className="flex flex-col min-h-screen">
-          <Example />
+          <Header />
 
           {children}
         </section>
