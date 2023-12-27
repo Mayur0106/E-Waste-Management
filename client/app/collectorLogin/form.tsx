@@ -42,6 +42,7 @@ const Form = () => {
     >
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img
+          loading="lazy"
           className="mx-auto h-10 w-auto"
           src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
           alt="Your Company"

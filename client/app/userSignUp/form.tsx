@@ -53,6 +53,7 @@ export default function Form() {
               <div className="flex items-center space-x-6">
                 <div className="shrink-0">
                   <img
+                    loading="lazy"
                     className="h-16 w-16 object-cover rounded-full"
                     src="/Brand_logo.jpg"
                     alt="Current profile photo"
