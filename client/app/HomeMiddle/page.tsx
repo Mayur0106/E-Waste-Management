@@ -12,6 +12,8 @@ export default function HomeMiddle() {
       <div>
         <div className={homemiddle.logo}>
           <Image
+            priority={true}
+            className="h-auto w-auto"
             src="/logo2.png"
             alt="Description of the image"
             width={235}

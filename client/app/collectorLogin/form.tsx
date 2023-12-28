@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
+import axios from "axios";
 
 const Form = () => {
   // const [username, setUsername] = useState("");
@@ -8,7 +9,23 @@ const Form = () => {
   const [data, setData] = useState({ username: "", password: "" });
   const handleSubmits = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("submit");
+    axios
+      .post("http://localhost:8080/api/collectorAuth/signin", data)
+      .then((res) => {
+        console.log(res);
+        if (res.data.status === "success") {
+          // window.location.href = "/collectorDashboard";
+          console.log("success");
+          alert("Login Successful");
+        } else {
+          alert("Invalid Credentials");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("Invalid Credentials");
+      });
+    // console.log("submit");
     console.log(data);
   };
 
@@ -25,6 +42,7 @@ const Form = () => {
     >
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img
+          loading="lazy"
           className="mx-auto h-10 w-auto"
           src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
           alt="Your Company"

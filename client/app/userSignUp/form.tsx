@@ -1,11 +1,43 @@
 "use client";
+import React from "react";
+import { useState } from "react";
+import axios from "axios";
 
 export default function Form() {
+  const [data, setData] = useState({
+    username: "",
+    email: "",
+    address: "",
+    phoneNumber: "",
+    password: "",
+    confirmPassword: "",
+  });
+
   const handleSubmits = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData);
+    axios
+      .post("http://localhost:8080/api/auth/signup", data)
+      .then((res) => {
+        console.log(res);
+        if (res.data.status === "success") {
+          // window.location.href = "/collectorDashboard";
+          console.log("success");
+          alert("Login Successful");
+        } else {
+          console.log("failed");
+          alert("Login Failed");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     console.log(data);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    console.log(name, value);
+    setData({ ...data, [name]: value });
   };
   return (
     <>
@@ -21,6 +53,7 @@ export default function Form() {
               <div className="flex items-center space-x-6">
                 <div className="shrink-0">
                   <img
+                    loading="lazy"
                     className="h-16 w-16 object-cover rounded-full"
                     src="/Brand_logo.jpg"
                     alt="Current profile photo"
@@ -57,6 +90,8 @@ export default function Form() {
                       <input
                         type="text"
                         name="username"
+                        value={data.username}
+                        onChange={handleChange}
                         id="username"
                         autoComplete="username"
                         className="pl-1 block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
@@ -79,6 +114,8 @@ export default function Form() {
                     <input
                       id="email"
                       name="email"
+                      value={data.email}
+                      onChange={handleChange}
                       type="email"
                       autoComplete="email"
                       className="pl-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -99,6 +136,8 @@ export default function Form() {
                     <input
                       id="address"
                       name="address"
+                      value={data.address}
+                      onChange={handleChange}
                       type="address"
                       autoComplete="address"
                       className="pl-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -119,6 +158,8 @@ export default function Form() {
                     <input
                       id="phoneNumber"
                       name="phoneNumber"
+                      value={data.phoneNumber}
+                      onChange={handleChange}
                       type="phoneNumber"
                       autoComplete="phoneNumber"
                       className="pl-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -139,6 +180,8 @@ export default function Form() {
                     <input
                       id="password"
                       name="password"
+                      value={data.password}
+                      onChange={handleChange}
                       type="password"
                       autoComplete="password"
                       className="pl-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -159,6 +202,8 @@ export default function Form() {
                     <input
                       id="confirmPassword"
                       name="confirmPassword"
+                      value={data.confirmPassword}
+                      onChange={handleChange}
                       type="password"
                       autoComplete="password"
                       className="pl-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"

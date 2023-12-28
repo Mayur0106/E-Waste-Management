@@ -42,6 +42,7 @@ export default function collectorSignUp() {
     <div className="flex flex-col items-center justify-center min-h-screen py-6 bg-gray-50 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <img
+          loading="lazy"
           className="mx-auto h-12 w-auto"
           src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
           alt="Workflow"

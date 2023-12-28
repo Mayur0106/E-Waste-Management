@@ -8,14 +8,19 @@ import layout from "./styles/layout.module.css";
 import Footer from "./Footer/page";
 export default function Home() {
   return (
-     <div>
+    <div>
       <Link href="/login">
         <button className={layout.signin} type="button">
           Sign In
         </button>
       </Link>
-      <div>{HomeMiddle()}</div>
-      <div className={layout.card} >{CardContainer()}</div>
+      <div>
+        <HomeMiddle />
+      </div>
+      {/* <div className={layout.card} >{CardContainer()}</div> */}
+      <div className={layout.card}>
+        <CardContainer />
+      </div>
       <div>{Footer()}</div>
     </div>
   );
