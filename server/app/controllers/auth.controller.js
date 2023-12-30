@@ -16,30 +16,32 @@ exports.signup = async (req, res) => {
         };
         await validator(req.body, validationRules, {}, (error, status) => {
             if (!status) {
-                res.status(412)
+                return res.status(412)
                     .send({
                         success: false,
                         message: 'Validation failed',
                         data: error
                     });
-            } else {
-                User.create({
-                    fullName: req.body.fullName,
-                    userName: req.body.userName,
-                    email: req.body.email,
-                    phone: req.body.phone,
-                    address: req.body.address,
-                    password: bcrypt.hashSync(req.body.password, 8),
-                }).then((user) => {
-                    res.status(200).send({
-                        success: true,
-                        message: "User is registered successfully !",
-                        data: user
-                    })
-                }).catch((err) => {
-                    res.status(400).send({ error: err });
-                });
             }
+            // else {
+            User.create({
+                profileImage: req.file.path,
+                fullName: req.body.fullName,
+                userName: req.body.userName,
+                email: req.body.email,
+                phone: req.body.phone,
+                address: req.body.address,
+                password: bcrypt.hashSync(req.body.password, 8),
+            }).then((user) => {
+                res.status(200).send({
+                    success: true,
+                    message: "User is registered successfully !",
+                    data: user
+                })
+            }).catch((err) => {
+                res.status(400).send({ error: err });
+            });
+            // }
         })
 
     } catch (error) {

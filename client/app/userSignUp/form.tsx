@@ -2,8 +2,12 @@
 import React from "react";
 import { useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Form() {
+  const [file, setFile] = useState<File | null>(null);
+
   const [data, setData] = useState({
     username: "",
     email: "",
@@ -13,25 +17,71 @@ export default function Form() {
     confirmPassword: "",
   });
 
-  const handleSubmits = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmits = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:8080/api/auth/signup", data)
-      .then((res) => {
-        console.log(res);
-        if (res.data.status === "success") {
-          // window.location.href = "/collectorDashboard";
-          console.log("success");
-          alert("Login Successful");
-        } else {
-          console.log("failed");
-          alert("Login Failed");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
+
+    if (!file) {
+      toast.error("Image is mendatory to upload", {
+        position: "bottom-right",
       });
-    console.log(data);
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("photo", file);
+    formData.append("fullName", data.username);
+    formData.append("userName", data.username);
+    formData.append("email", data.email);
+    formData.append("address", data.address);
+    formData.append("phone", data.phoneNumber);
+    formData.append("password", data.password);
+    formData.append("confirmPassword", data.confirmPassword);
+
+    try {
+      await axios
+        .post("http://localhost:8080/api/auth/signup", formData)
+        .then((res) => {
+          console.log(res);
+          console.log("success");
+          toast.success("Registration Success", {
+            position: "bottom-right",
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("Registration failed", {
+            position: "bottom-right",
+          });
+        });
+    } catch (error) {
+      toast.error("Something went wrong while uploading file", {
+        position: "bottom-right",
+      });
+
+      console.log("error in form uploading : ", error);
+    }
+    // axios
+    //   .post("http://localhost:8080/api/auth/signup", data)
+    // .then((res) => {
+    //   console.log(res);
+    //   if (res.data.status === "success") {
+    //     // window.location.href = "/collectorDashboard";
+    //     console.log("success");
+    //     alert("Login Successful");
+    //   } else {
+    //     console.log("failed");
+    //     alert("Login Failed");
+    //   }
+    // })
+    // .catch((err) => {
+    //   console.log(err);
+    // });
+    // console.log(data);
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFile(e.target.files ? e.target.files[0] : null);
+    // console.log(file);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,6 +113,7 @@ export default function Form() {
                   <span className="sr-only">Choose profile photo</span>
                   <input
                     type="file"
+                    onChange={handleFileChange}
                     className="block w-full text-sm text-slate-500
                             file:mr-4 file:py-2 file:px-4
                             file:rounded-full file:border-0
