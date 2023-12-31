@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function Form() {
   const [file, setFile] = useState<File | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
 
   const [data, setData] = useState({
     username: "",
@@ -19,6 +20,12 @@ export default function Form() {
 
   const handleSubmits = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (data.password !== data.confirmPassword) {
+      toast.error("Password and confirm password does not match", {
+        position: "bottom-right",
+      });
+      return;
+    }
 
     if (!file) {
       toast.error("Image is mendatory to upload", {
@@ -60,28 +67,21 @@ export default function Form() {
 
       console.log("error in form uploading : ", error);
     }
-    // axios
-    //   .post("http://localhost:8080/api/auth/signup", data)
-    // .then((res) => {
-    //   console.log(res);
-    //   if (res.data.status === "success") {
-    //     // window.location.href = "/collectorDashboard";
-    //     console.log("success");
-    //     alert("Login Successful");
-    //   } else {
-    //     console.log("failed");
-    //     alert("Login Failed");
-    //   }
-    // })
-    // .catch((err) => {
-    //   console.log(err);
-    // });
-    // console.log(data);
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFile(e.target.files ? e.target.files[0] : null);
+    const file = e.target.files![0];
+    setFile(file);
     // console.log(file);
+
+    if (file) {
+      setImageUrl(URL.createObjectURL(file));
+    } else {
+      setImageUrl(null);
+    }
+
+    // console.log(file);
+    // console.log(imageUrl);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -102,12 +102,15 @@ export default function Form() {
             <div className="border-b border-gray-900/10 pb-12">
               <div className="flex items-center space-x-6">
                 <div className="shrink-0">
-                  <img
-                    loading="lazy"
-                    className="h-16 w-16 object-cover rounded-full"
-                    src="/Brand_logo.jpg"
-                    alt="Current profile photo"
-                  />
+                  {imageUrl && (
+                    <img
+                      // loading="lazy"
+                      className="h-16 w-16 object-cover rounded-full"
+                      src={imageUrl}
+                      alt="Current profile photo"
+                      key={imageUrl}
+                    />
+                  )}
                 </div>
                 <label className="block">
                   <span className="sr-only">Choose profile photo</span>
