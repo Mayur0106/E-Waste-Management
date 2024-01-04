@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 require('dotenv').config();
+const path = require('path');
 
 const app = express();
 const port = 3000;
@@ -19,8 +20,8 @@ app.use(bodyParser.json({ limit: '50mb' }));
 
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
-app.use(express.static('public'));
-
+// serve static file from "Public" directory
+app.use('/Public', express.static(path.join(__dirname, 'Public')));
 // database
 const db = require('./app/models');
 

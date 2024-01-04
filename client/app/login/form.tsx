@@ -13,7 +13,10 @@ const Form = () => {
     e.preventDefault();
     // console.log("submit");
     axios
-      .post("http://localhost:8080/api/auth/signin", data)
+      .post(
+        `${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}/api/auth/signin`,
+        data
+      )
       .then((res) => {
         console.log(res.data);
         if (res.data.success) {

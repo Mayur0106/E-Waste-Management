@@ -90,3 +90,22 @@ exports.signin = (req, res) => {
         res.status(500).send({ success: false, message: error.message || "something went wrong" });
     }
 }
+
+exports.getProfile = (req, res) => {
+    try {
+        const userId = req.userId;
+
+        User.findOne({
+            where: {
+                id: userId,
+            }
+        }).then((user) => {
+            return res.status(200).send({ success: true, data: user });
+        }).catch((err) => {
+            return res.status(500).send({ sucess: true, message: err.message });
+        })
+    } catch (error) {
+        console.log("error in auth.controller.js :: getProfile() => error");
+        return res.status(500).send({ success: false, message: error.message || "something went wrong" })
+    }
+}

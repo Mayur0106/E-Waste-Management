@@ -42,4 +42,10 @@ module.exports = function (app) {
         API_CONTEXT + "/auth/signin",
         controller.signin
     );
+
+    app.get(
+        API_CONTEXT + "/auth/getProfile",
+        [authJWT.verifyToken],
+        controller.getProfile
+    )
 }

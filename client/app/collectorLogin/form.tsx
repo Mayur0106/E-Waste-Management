@@ -12,7 +12,10 @@ const Form = () => {
   const handleSubmits = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     axios
-      .post("http://localhost:8080/api/collectorAuth/signin", data)
+      .post(
+        `${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}/api/collectorAuth/signin`,
+        data
+      )
       .then((res) => {
         console.log(res);
         if (res.data.success) {

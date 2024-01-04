@@ -46,7 +46,10 @@ export default function Form() {
 
     try {
       await axios
-        .post("http://localhost:8080/api/auth/signup", formData)
+        .post(
+          `${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}/api/auth/signup`,
+          formData
+        )
         .then((res) => {
           console.log(res);
           console.log("success");

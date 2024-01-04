@@ -55,11 +55,15 @@ export default function Form() {
 
     try {
       axios
-        .post("http://localhost:8080/api/collectorAuth/signup", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
+        .post(
+          `${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}/api/collectorAuth/signup`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        )
         .then((res) => {
           console.log(res);
           console.log("success");
