@@ -2,28 +2,45 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Form = () => {
-  // const [username, setUsername] = useState("");
+  // const [email, setUsername] = useState("");
   // const [password, setPassword] = useState("");
-  const [data, setData] = useState({ username: "", password: "" });
+  const [data, setData] = useState({ email: "", password: "" });
   const handleSubmits = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     axios
-      .post("http://localhost:8080/api/collectorAuth/signin", data)
+      .post(
+        `${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}/api/collectorAuth/signin`,
+        data
+      )
       .then((res) => {
         console.log(res);
-        if (res.data.status === "success") {
+        if (res.data.success) {
           // window.location.href = "/collectorDashboard";
           console.log("success");
-          alert("Login Successful");
+          // alert("Login Successful");
+          toast.success("Login Successful", {
+            position: toast.POSITION.BOTTOM_RIGHT,
+          });
         } else {
-          alert("Invalid Credentials");
+          // alert("Invalid Credentials");
+          toast.error("Login Failed", {
+            position: toast.POSITION.BOTTOM_RIGHT,
+          });
         }
       })
       .catch((err) => {
         console.log(err);
-        alert("Invalid Credentials");
+        // alert("Invalid Credentials");
+        toast.error("Login Failed", {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          // onClose: () => {
+          //   window.location.href = "/collectorLogin";
+          // },
+        });
       });
     // console.log("submit");
     console.log(data);
@@ -54,18 +71,18 @@ const Form = () => {
       <div className="mb-4">
         <label
           className="block text-sm font-medium leading-6 text-gray-900"
-          htmlFor="username"
+          htmlFor="email"
         >
-          Username
+          E-mail
         </label>
         <input
           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-          id="username"
+          id="email"
           onChange={handleChange}
-          name="username"
-          value={data.username}
+          name="email"
+          value={data.email}
           type="text"
-          placeholder="Username"
+          placeholder="E-mail"
         />
       </div>
       <div className="mb-6">

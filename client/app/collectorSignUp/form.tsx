@@ -1,8 +1,13 @@
 "use client";
 import { useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Form() {
+  const [file, setFile] = useState<File | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+
   const [data, setData] = useState({
     centerName: "",
     contactPerson: "",
@@ -18,20 +23,74 @@ export default function Form() {
 
   const handleSubmits = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:8080/api/collectorAuth/signup", data)
-      .then((res) => {
-        console.log(res);
-        if (res.status === 200) {
-          console.log("success");
-        } else {
-          console.log("error");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
+    if (data.password !== data.confirmPassword) {
+      toast.error("Password does not match", {
+        position: "bottom-right",
       });
-    console.log(data);
+      return;
+    }
+
+    if (!file) {
+      toast.error("Please upload a photo", {
+        position: "bottom-right",
+      });
+      return;
+    }
+
+    const formData = new FormData();
+
+    formData.append("photo", file!);
+    formData.append("centerName", data.centerName);
+    formData.append("contactPerson", data.contactPerson);
+    formData.append("email", data.email);
+    formData.append("address", data.address);
+    formData.append("phone", data.phoneNumber);
+    formData.append("longitude", "90.777");
+    formData.append("latitude", "40.45");
+    formData.append("operatingHours", data.operatingHours);
+    formData.append("acceptedItems", data.acceptedItems);
+    formData.append("serviceOffered", data.serviceOffered);
+    formData.append("password", data.password);
+    formData.append("confirmPassword", data.confirmPassword);
+
+    try {
+      axios
+        .post(
+          `${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}/api/collectorAuth/signup`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res);
+          console.log("success");
+          toast.success("Successfully Registered", {
+            position: "bottom-right",
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (error) {
+      console.log("error", error);
+      toast.error("Error Occured", {
+        position: "bottom-right",
+      });
+    }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files![0];
+    setFile(file);
+
+    if (file) {
+      setImageUrl(URL.createObjectURL(file));
+    } else {
+      setImageUrl(null);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,17 +112,22 @@ export default function Form() {
             <div className="border-b border-gray-900/10 pb-12">
               <div className="flex items-center space-x-6">
                 <div className="shrink-0">
-                  <img
-                    loading="lazy"
-                    className="h-16 w-16 object-cover rounded-full"
-                    src="/Brand_logo.jpg"
-                    alt="Current profile photo"
-                  />
+                  {imageUrl && (
+                    <img
+                      loading="lazy"
+                      className="h-16 w-16 object-cover rounded-full"
+                      src={imageUrl}
+                      alt="Current profile photo"
+                      key={imageUrl}
+                    />
+                  )}
                 </div>
                 <label className="block">
                   <span className="sr-only">Choose profile photo</span>
                   <input
                     type="file"
+                    name="file"
+                    onChange={handleFileChange}
                     className="block w-full text-sm text-slate-500
                             file:mr-4 file:py-2 file:px-4
                             file:rounded-full file:border-0
@@ -89,7 +153,7 @@ export default function Form() {
                       name="centerName"
                       value={data.centerName}
                       onChange={handleChange}
-                      type="centerName"
+                      type="text"
                       autoComplete="centerName"
                       className="pl-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
@@ -118,7 +182,7 @@ export default function Form() {
                         id="contactPerson"
                         autoComplete="contactPerson"
                         className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                        placeholder="janesmith"
+                        placeholder="jane smith"
                       />
                     </div>
                   </div>

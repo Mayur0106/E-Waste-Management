@@ -6,6 +6,7 @@ import "./styles/globals.css";
 import { Disclosure } from "@headlessui/react";
 import Link from "next/link";
 import Header from "./Header/page";
+import { ToastContainer } from "react-toastify";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,6 +28,7 @@ export default function RootLayout({
           <Header />
 
           {children}
+          <ToastContainer />
         </section>
       </body>
     </html>
