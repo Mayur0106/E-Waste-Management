@@ -1,11 +1,12 @@
 "use client";
 
 import "../styles/globals.css";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import header from "../styles/Header.module.css";
 import CoinBadge from "./CoinBadge";
+import { useRouter } from "next/navigation";
 
 //import slider from './slider';
 
@@ -19,11 +20,11 @@ const user = {
 };
 
 const navigation = [
-  { name: "Dashboard", href: "#", current: true },
-  { name: "Team", href: "#", current: false },
-  { name: "Projects", href: "#", current: false },
-  { name: "Calendar", href: "#", current: false },
-  { name: "Reports", href: "#", current: false },
+  { name: "Dashboard", href: "/" },
+  { name: "Team", href: "#" },
+  { name: "Projects", href: "#" },
+  { name: "Calendar", href: "#" },
+  { name: "Reports", href: "#" },
 ];
 
 const userNavigation = [
@@ -37,6 +38,14 @@ function classNames(...classes: string[]) {
 }
 
 export default function Header() {
+  const [currentItem, setCurrentItem] = useState(navigation[0].name);
+  const router = useRouter();
+
+  const handleProfileClick = () => {
+    console.log();
+    console.info("You clicked a profile.");
+    router.push("/userProfile");
+  };
   return (
     <>
       <div className="min-h-full">
@@ -65,14 +74,16 @@ export default function Header() {
                         {navigation.map((item) => (
                           <a
                             key={item.name}
+                            onClick={() => setCurrentItem(item.name)}
                             href={item.href}
-                            className={classNames(
-                              item.current
+                            className={`rounded-md px-3 py-2 text-sm font-medium ${
+                              item.name === currentItem
                                 ? "bg-gray-900 text-white"
-                                : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                              "rounded-md px-3 py-2 text-sm font-medium"
-                            )}
-                            aria-current={item.current ? "page" : undefined}
+                                : "text-gray-300 hover:bg-gray-700 hover:text-white"
+                            }`}
+                            aria-current={
+                              item.name === currentItem ? "page" : undefined
+                            }
                           >
                             {item.name}
                           </a>
@@ -105,6 +116,7 @@ export default function Header() {
                             <span className="sr-only">Open user menu</span>
                             <img
                               loading="lazy"
+                              // onClick={handleClick}
                               className="h-8 w-8 rounded-full"
                               src={user.imageUrl}
                               alt=""
@@ -130,6 +142,11 @@ export default function Header() {
                                       active ? "bg-gray-100" : "",
                                       "block px-4 py-2 text-sm text-gray-700"
                                     )}
+                                    onClick={
+                                      item.name === "Your Profile"
+                                        ? handleProfileClick
+                                        : undefined
+                                    }
                                   >
                                     {item.name}
                                   </a>
@@ -170,12 +187,14 @@ export default function Header() {
                       as="a"
                       href={item.href}
                       className={classNames(
-                        item.current
+                        item.name === currentItem
                           ? "bg-gray-900 text-white"
                           : "text-gray-300 hover:bg-gray-700 hover:text-white",
                         "block rounded-md px-3 py-2 text-base font-medium"
                       )}
-                      aria-current={item.current ? "page" : undefined}
+                      aria-current={
+                        item.name === currentItem ? "page" : undefined
+                      }
                     >
                       {item.name}
                     </Disclosure.Button>
