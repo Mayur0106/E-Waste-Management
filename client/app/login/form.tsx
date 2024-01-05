@@ -1,11 +1,13 @@
 "use client";
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import Link from "next/link";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation";
 
 const Form = () => {
+  const router = useRouter();
   // const [email, setUsername] = useState("");
   // const [password, setPassword] = useState("");
   const [data, setData] = useState({ email: "", password: "" });
@@ -18,20 +20,31 @@ const Form = () => {
         data
       )
       .then((res) => {
-        console.log(res.data);
-        if (res.data.success) {
-          // window.location.href = "/collectorDashboard";
-          console.log("success");
-          // alert("Login Successful");
-          toast.success("Login Successful", {
-            position: "bottom-right",
+        const token = res.data.data.token;
+        localStorage.setItem("token", token);
+        axios
+          .get(
+            `${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}/api/auth/getProfile`,
+            {
+              headers: {
+                "x-access-token": token,
+              },
+            }
+          )
+          .then((res) => {
+            const user = res.data.data;
+            console.log(user);
+
+            localStorage.setItem("user", JSON.stringify(res.data.data));
+            router.push("/");
+          })
+          .catch((err) => {
+            console.log(err);
           });
-        } else {
-          // alert("Login Failed");
-          toast.error("Login Failed", {
-            position: "bottom-right",
-          });
-        }
+        console.log("login success");
+        toast.success("Login Successful", {
+          position: "bottom-right",
+        });
       })
       .catch((err) => {
         console.log(err);
