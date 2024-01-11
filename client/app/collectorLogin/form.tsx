@@ -81,7 +81,7 @@ const Form = () => {
           onChange={handleChange}
           name="email"
           value={data.email}
-          type="text"
+          type="email"
           placeholder="E-mail"
         />
       </div>

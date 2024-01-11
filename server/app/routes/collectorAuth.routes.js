@@ -42,4 +42,12 @@ module.exports = function (app) {
         API_CONTEXT + "/collectorAuth/signin",
         controller.signin
     );
+
+    app.post(
+        API_CONTEXT + "/collectorAuth/findCollector",
+        [
+            authJWT.verifyToken
+        ],
+        controller.findCollector
+    );
 }

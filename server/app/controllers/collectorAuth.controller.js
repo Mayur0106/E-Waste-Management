@@ -16,7 +16,10 @@ exports.signup = async (req, res) => {
             serviceOffered: 'required',
             email: 'required|email',
             phone: 'required',
-            address: 'required',
+            state: 'required',
+            district: 'required',
+            subDistrict: 'required',
+            city: 'required',
             password: 'required|min:6',
         };
 
@@ -41,7 +44,10 @@ exports.signup = async (req, res) => {
                 serviceOffered: req.body.serviceOffered,
                 email: req.body.email,
                 phone: req.body.phone,
-                address: req.body.address,
+                state: req.body.state,
+                district: req.body.district,
+                subDistrict: req.body.subDistrict,
+                city: req.body.city,
                 password: bcrypt.hashSync(req.body.password, 8),
             }).then((collector) => {
                 if (!collector) res.status(404).send({ success: false, message: "Collector Not found. signup failed!" });
@@ -103,6 +109,28 @@ exports.signin = (req, res) => {
         });
     } catch (error) {
         console.log("error in collectorAuth.controller.js :: signin() =>", error);
+        res.status(500).send({ success: false, message: error.message || "something went wrong" });
+    }
+}
+
+exports.findCollector = (req, res) => {
+    try {
+        Collector.findAll({
+            where: req.body
+        }).then(collector => {
+            if (!collector) {
+                return res.status(404).send({ success: false, message: "Collector Not found." });
+            }
+            res.status(200).send({
+                success: true,
+                message: "Collector is found successfully !",
+                data: collector
+            });
+        }).catch(err => {
+            res.status(500).send({ success: false, message: err.message });
+        });
+    } catch (error) {
+        console.log("error in collectorAuth.controller.js :: findCollector() =>", error);
         res.status(500).send({ success: false, message: error.message || "something went wrong" });
     }
 }

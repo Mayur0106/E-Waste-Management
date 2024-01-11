@@ -12,7 +12,11 @@ export default function Form() {
   const [data, setData] = useState({
     username: "",
     email: "",
-    address: "",
+    // address: "",
+    state: "",
+    district: "",
+    subDistrict: "",
+    city: "",
     phoneNumber: "",
     password: "",
     confirmPassword: "",
@@ -39,7 +43,10 @@ export default function Form() {
     formData.append("fullName", data.username);
     formData.append("userName", data.username);
     formData.append("email", data.email);
-    formData.append("address", data.address);
+    formData.append("state", data.state);
+    formData.append("district", data.district);
+    formData.append("subDistrict", data.subDistrict);
+    formData.append("city", data.city);
     formData.append("phone", data.phoneNumber);
     formData.append("password", data.password);
     formData.append("confirmPassword", data.confirmPassword);
@@ -151,7 +158,7 @@ export default function Form() {
                         onChange={handleChange}
                         id="username"
                         autoComplete="username"
-                        className="pl-1 block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                        className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                         placeholder="janesmith"
                       />
                     </div>
@@ -180,23 +187,89 @@ export default function Form() {
                   </div>
                 </div>
               </div>
-              {/* // address input field */}
+              {/* // state input field */}
               <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div className="sm:col-span-4">
                   <label
-                    htmlFor="address"
+                    htmlFor="state"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
-                    Address
+                    state
                   </label>
                   <div className="mt-2">
                     <input
-                      id="address"
-                      name="address"
-                      value={data.address}
+                      id="state"
+                      name="state"
+                      value={data.state}
                       onChange={handleChange}
-                      type="address"
-                      autoComplete="address"
+                      type="text"
+                      autoComplete="state"
+                      className="pl-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    />
+                  </div>
+                </div>
+              </div>
+              {/* // district input field */}
+              <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                <div className="sm:col-span-4">
+                  <label
+                    htmlFor="district"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    district
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      id="district"
+                      name="district"
+                      value={data.district}
+                      onChange={handleChange}
+                      type="text"
+                      autoComplete="district"
+                      className="pl-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    />
+                  </div>
+                </div>
+              </div>
+              {/* // subDistrict input field */}
+              <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                <div className="sm:col-span-4">
+                  <label
+                    htmlFor="subDistrict"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    subDistrict
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      id="subDistrict"
+                      name="subDistrict"
+                      value={data.subDistrict}
+                      onChange={handleChange}
+                      type="text"
+                      autoComplete="subDistrict"
+                      className="pl-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    />
+                  </div>
+                </div>
+              </div>
+              {/* // city input field */}
+              <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                <div className="sm:col-span-4">
+                  <label
+                    htmlFor="city"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    city
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      id="city"
+                      name="city"
+                      value={data.city}
+                      onChange={handleChange}
+                      type="text"
+                      autoComplete="city"
                       className="pl-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
                   </div>
@@ -217,7 +290,9 @@ export default function Form() {
                       name="phoneNumber"
                       value={data.phoneNumber}
                       onChange={handleChange}
-                      type="phoneNumber"
+                      type="tel"
+                      pattern="[0-9]{10}"
+                      placeholder="1234567890"
                       autoComplete="phoneNumber"
                       className="pl-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
