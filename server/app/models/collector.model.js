@@ -6,7 +6,16 @@ module.exports = (sequelize, Sequelize) => {
         contactPerson: {
             type: Sequelize.STRING
         },
-        address: {
+        state: {
+            type: Sequelize.STRING
+        },
+        district: {
+            type: Sequelize.STRING
+        },
+        subDistrict: {
+            type: Sequelize.STRING
+        },
+        city: {
             type: Sequelize.STRING
         },
         email: {

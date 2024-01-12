@@ -11,7 +11,10 @@ exports.signup = async (req, res) => {
             userName: 'required',
             email: 'required|email',
             phone: 'required|numeric',
-            address: 'required',
+            state: 'required',
+            district: 'required',
+            subDistrict: 'required',
+            city: 'required',
             password: 'required|min:6',
         };
         await validator(req.body, validationRules, {}, (error, status) => {
@@ -23,14 +26,16 @@ exports.signup = async (req, res) => {
                         data: error
                     });
             }
-            // else {
             User.create({
                 profileImage: req.file.path,
                 fullName: req.body.fullName,
                 userName: req.body.userName,
                 email: req.body.email,
                 phone: req.body.phone,
-                address: req.body.address,
+                state: req.body.state,
+                district: req.body.district,
+                subDistrict: req.body.subDistrict,
+                city: req.body.city,
                 password: bcrypt.hashSync(req.body.password, 8),
             }).then((user) => {
                 res.status(200).send({
@@ -41,7 +46,6 @@ exports.signup = async (req, res) => {
             }).catch((err) => {
                 res.status(400).send({ error: err });
             });
-            // }
         })
 
     } catch (error) {
