@@ -24,7 +24,13 @@ module.exports = (sequelize, Sequelize) => {
         phone: {
             type: Sequelize.STRING
         },
-        operatingHours: {
+        // operatingHours: {
+        //     type: Sequelize.STRING
+        // }
+        timeFrom: {
+            type: Sequelize.STRING
+        },
+        timeTo: {
             type: Sequelize.STRING
         },
         latitude: {

@@ -4,8 +4,10 @@ import Link from "next/link";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation";
 
 const Form = () => {
+  const router = useRouter();
   // const [email, setUsername] = useState("");
   // const [password, setPassword] = useState("");
   const [data, setData] = useState({ email: "", password: "" });
@@ -18,28 +20,17 @@ const Form = () => {
       )
       .then((res) => {
         console.log(res);
-        if (res.data.success) {
-          // window.location.href = "/collectorDashboard";
-          console.log("success");
-          // alert("Login Successful");
-          toast.success("Login Successful", {
-            position: toast.POSITION.BOTTOM_RIGHT,
-          });
-        } else {
-          // alert("Invalid Credentials");
-          toast.error("Login Failed", {
-            position: toast.POSITION.BOTTOM_RIGHT,
-          });
-        }
+        console.log("success");
+        toast.success("Login Successful", {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+        router.push("/dashboard");
       })
       .catch((err) => {
         console.log(err);
         // alert("Invalid Credentials");
         toast.error("Login Failed", {
           position: toast.POSITION.BOTTOM_RIGHT,
-          // onClose: () => {
-          //   window.location.href = "/collectorLogin";
-          // },
         });
       });
     // console.log("submit");

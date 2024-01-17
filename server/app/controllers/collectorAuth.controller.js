@@ -9,7 +9,9 @@ exports.signup = async (req, res) => {
         const validationRules = {
             centerName: 'required',
             contactPerson: 'required',
-            operatingHours: 'required',
+            // operatingHours: 'required',
+            timeFrom: 'required',
+            timeTo: 'required',
             latitude: 'required',
             longitude: 'required',
             acceptedItems: 'required',
@@ -37,7 +39,9 @@ exports.signup = async (req, res) => {
                 images: req.file.path,
                 centerName: req.body.centerName,
                 contactPerson: req.body.contactPerson,
-                operatingHours: req.body.operatingHours,
+                // operatingHours: req.body.operatingHours,
+                timeFrom: req.body.timeFrom,
+                timeTo: req.body.timeTo,
                 latitude: req.body.latitude,
                 longitude: req.body.longitude,
                 acceptedItems: req.body.acceptedItems,
@@ -113,21 +117,32 @@ exports.signin = (req, res) => {
     }
 }
 
-exports.findCollector = (req, res) => {
+exports.findCollector = async (req, res) => {
     try {
-        Collector.findAll({
-            where: req.body
-        }).then(collector => {
-            if (!collector) {
-                return res.status(404).send({ success: false, message: "Collector Not found." });
+        const whereClause = {};
+
+        for (const key in req.body) {
+            if (req.body.hasOwnProperty(key)) {
+                const element = req.body[key];
+                if (element) {
+                    whereClause[key] = element;
+                }
             }
-            res.status(200).send({
-                success: true,
-                message: "Collector is found successfully !",
-                data: collector
+        }
+
+        const collectors = await Collector.findAll({ where: whereClause });
+
+        if (!collectors.length) {
+            return res.status(404).json({
+                success: false,
+                message: "Collector not found."
             });
-        }).catch(err => {
-            res.status(500).send({ success: false, message: err.message });
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Collectors found successfully!",
+            data: collectors
         });
     } catch (error) {
         console.log("error in collectorAuth.controller.js :: findCollector() =>", error);
