@@ -4,23 +4,30 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
+import loader from "../../utils/googleMapsLoader";
+// import {} from "googlemaps";
 
 export default function Form() {
   const router = useRouter();
   const [file, setFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [checked, setChecked] = useState(
+    new Array(12).fill(false) as Array<boolean>
+  );
+
+  const [checked1, setChecked1] = useState(
+    new Array(5).fill(false) as Array<boolean>
+  );
 
   const [data, setData] = useState({
     centerName: "",
     contactPerson: "",
     email: "",
-    // state: "",
     state: "",
     city: "",
     district: "",
     subDistrict: "",
     phoneNumber: "",
-    // operatingHours: "",
     timeFrom: "",
     timeTo: "",
     acceptedItems: "",
@@ -28,6 +35,114 @@ export default function Form() {
     password: "",
     confirmPassword: "",
   });
+
+  const acceptedItems = [
+    {
+      id: 1,
+      name: "Computers & Peripherals",
+      description: "PCs, laptops, monitors, keyboards, mice, etc.",
+      selected: true,
+    },
+    {
+      id: 2,
+      name: "Mobile Devices",
+      description: "Smartphones, tablets, chargers, cases, etc.",
+      selected: true,
+    },
+    {
+      id: 3,
+      name: "Consumer Electronics",
+      description: "Cameras, audio devices, gaming consoles, etc.",
+      selected: true,
+    },
+    {
+      id: 4,
+      name: "Home Appliances",
+      description: "Refrigerators, washing machines, microwaves, etc.",
+      selected: true,
+    },
+    {
+      id: 5,
+      name: "Batteries",
+      description: "Rechargeable, button batteries, etc.",
+      selected: true,
+    },
+    {
+      id: 6,
+      name: "Cables & Wires",
+      description: "Chargers, USB cables, etc.",
+      selected: true,
+    },
+    {
+      id: 7,
+      name: "Printers & Cartridges",
+      description: "Printers, ink, toner cartridges, etc.",
+      selected: true,
+    },
+    {
+      id: 8,
+      name: "Electronic Components",
+      description: "Circuit boards, processors, RAM, etc.",
+      selected: true,
+    },
+    {
+      id: 9,
+      name: "Small Appliances",
+      description: "Toasters, blenders, coffee makers, etc.",
+      selected: true,
+    },
+    {
+      id: 10,
+      name: "Lighting Equipment",
+      description: "Bulbs, fluorescent lights, LEDs, etc.",
+      selected: true,
+    },
+    {
+      id: 11,
+      name: "Medical Devices",
+      description: "Electronic medical instruments.",
+      selected: true,
+    },
+    {
+      id: 12,
+      name: "Gaming Consoles",
+      description: "Game consoles and accessories.",
+      selected: true,
+    },
+  ];
+
+  const servicesOffered = [
+    {
+      id: 1,
+      name: "Pick-up service",
+      description:
+        "The e-waste collector center will collect the e-waste from the customer’s location and transport it to their facility.",
+    },
+    {
+      id: 2,
+      name: "Drop-off service",
+      description:
+        "The customer can drop off the e-waste at the e-waste collector center’s facility or at designated collection points.",
+    },
+    {
+      id: 3,
+      name: "Data destruction service",
+      description:
+        "The e-waste collector center will erase or destroy the data stored in the e-waste devices to prevent any unauthorized access or misuse.",
+    },
+    {
+      id: 4,
+      name: "Refurbishment service",
+      description:
+        "The e-waste collector center will repair, upgrade, or restore the e-waste devices that are still functional or have some salvageable parts.",
+    },
+    {
+      id: 5,
+      name: "Recycling service",
+      description:
+        "The e-waste collector center will dismantle, separate, and recover the valuable materials from the e-waste devices that are non-functional or beyond repair.",
+    },
+  ];
 
   const handleSubmits = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -45,13 +160,27 @@ export default function Form() {
       return;
     }
 
+    const items = [];
+
+    for (let i = 0; i < checked.length; i++) {
+      if (checked[i]) {
+        items.push(acceptedItems[i].name);
+      }
+    }
+
+    const services = [];
+    for (let i = 0; i < checked1.length; i++) {
+      if (checked1[i]) {
+        services.push(servicesOffered[i].name);
+      }
+    }
+
     const formData = new FormData();
 
     formData.append("photo", file!);
     formData.append("centerName", data.centerName);
     formData.append("contactPerson", data.contactPerson);
     formData.append("email", data.email);
-    // formData.append("address", data.address);
     formData.append("state", data.state);
     formData.append("city", data.city);
     formData.append("district", data.district);
@@ -59,11 +188,10 @@ export default function Form() {
     formData.append("phone", data.phoneNumber);
     formData.append("longitude", "90.777");
     formData.append("latitude", "40.45");
-    // formData.append("operatingHours", data.operatingHours);
     formData.append("timeFrom", data.timeFrom);
     formData.append("timeTo", data.timeTo);
-    formData.append("acceptedItems", data.acceptedItems);
-    formData.append("serviceOffered", data.serviceOffered);
+    formData.append("acceptedItems", JSON.stringify(items));
+    formData.append("serviceOffered", JSON.stringify(services));
     formData.append("password", data.password);
     formData.append("confirmPassword", data.confirmPassword);
 
@@ -88,10 +216,13 @@ export default function Form() {
         })
         .catch((error) => {
           console.log(error);
+          toast.error(`${error.response.data.message}`, {
+            position: "bottom-right",
+          });
         });
-    } catch (error) {
+    } catch (error: any) {
       console.log("error", error);
-      toast.error("Error Occured", {
+      toast.error(`${error.response.data.message}`, {
         position: "bottom-right",
       });
     }
@@ -112,6 +243,28 @@ export default function Form() {
     const { name, value } = e.target;
     console.log(name, value);
     setData({ ...data, [name]: value });
+  };
+
+  const handleCheckboxChange = (position: Number) => {
+    const updatedCheckedState = checked.map((item, index) => {
+      if (index === position) {
+        return !item;
+      }
+      return item;
+    });
+
+    setChecked(updatedCheckedState);
+  };
+
+  const handleCheckboxChange1 = (position: Number) => {
+    const updatedCheckedState = checked1.map((item, index) => {
+      if (index === position) {
+        return !item;
+      }
+      return item;
+    });
+
+    setChecked1(updatedCheckedState);
   };
 
   return (
@@ -361,38 +514,33 @@ export default function Form() {
                   onChange={handleChange}
                   id="to"
                 />
-                {/* <input
-                      id="operatingHours"
-                      name="operatingHours"
-                      value={data.operatingHours}
-                      onChange={handleChange}
-                      type="text"
-                      autoComplete="false"
-                      className="pl-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    /> */}
               </div>
             </div>
           </div>
           {/* // accepted items input field */}
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div className="sm:col-span-4">
-              <label
-                htmlFor="acceptedItems"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Accepted Items
-              </label>
-              <div className="mt-2">
-                <input
-                  id="acceptedItems"
-                  name="acceptedItems"
-                  value={data.acceptedItems}
-                  onChange={handleChange}
-                  type="text"
-                  autoComplete="acceptedItems"
-                  className="pl-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
+              <h1>
+                <label
+                  htmlFor="acceptedItems"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Accepted Items
+                </label>
+              </h1>
+              {acceptedItems.map((item, index) => (
+                <div key={index} className="mt-2">
+                  <input
+                    type="checkbox"
+                    id={`acceptedItems${index}`}
+                    name={item.name}
+                    value={item.name}
+                    checked={checked[index]}
+                    onChange={() => handleCheckboxChange(index)}
+                  />
+                  <label htmlFor={item.name}>{` ${item.name}`}</label>
+                </div>
+              ))}
             </div>
           </div>
           {/* // service offered input field */}
@@ -404,17 +552,19 @@ export default function Form() {
               >
                 Service Offered
               </label>
-              <div className="mt-2">
-                <input
-                  id="serviceOffered"
-                  name="serviceOffered"
-                  value={data.serviceOffered}
-                  onChange={handleChange}
-                  type="text"
-                  autoComplete="serviceOffered"
-                  className="pl-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
+              {servicesOffered.map((item, index) => (
+                <div key={index} className="mt-2">
+                  <input
+                    type="checkbox"
+                    id={`serviceOffered${index}`}
+                    name={item.name}
+                    value={item.name}
+                    checked={checked1[index]}
+                    onChange={() => handleCheckboxChange1(index)}
+                  />
+                  <label htmlFor={item.name}>{` ${item.name}`}</label>
+                </div>
+              ))}
             </div>
           </div>
           {/* // password input field */}

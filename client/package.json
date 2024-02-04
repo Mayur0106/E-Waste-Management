@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "@types/glidejs__glide": "^3.6.3",
+    "@types/googlemaps": "^3.43.3",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
