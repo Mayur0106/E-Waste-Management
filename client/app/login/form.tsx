@@ -49,7 +49,7 @@ const Form = () => {
       .catch((err) => {
         console.log(err);
         // alert("Login Failed");
-        toast.error("Login Failed", {
+        toast.error(`${err.response.data.message}`, {
           position: "bottom-right",
         });
       });

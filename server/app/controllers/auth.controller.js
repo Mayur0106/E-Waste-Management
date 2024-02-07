@@ -113,3 +113,42 @@ exports.getProfile = (req, res) => {
         return res.status(500).send({ success: false, message: error.message || "something went wrong" })
     }
 }
+
+exports.changePassword = async (req, res) => {
+    try {
+        const validationRules = {
+            newPassword: 'required|min:6',
+        };
+
+        await validator(req.body, validationRules, {}, async (error, status) => {
+            if (!status) {
+                return res.status(412)
+                    .send({
+                        success: false,
+                        message: 'Validation failed',
+                        data: error
+                    });
+            }
+
+            const user = await User.findOne({ where: { email: req.body.email } });
+
+            if (!user) {
+                return res.status(404).json({
+                    success: false,
+                    message: "user not found."
+                });
+            }
+
+            user.password = bcrypt.hashSync(req.body.newPassword, 8);
+            user.save();
+
+            return res.status(200).json({
+                success: true,
+                message: "Password changed successfully!"
+            });
+        });
+    } catch (error) {
+        console.log("error in auth.controller.js :: changePassword() => error");
+        return res.status(500).send({ success: false, message: error.message || "something went wrong" })
+    }
+}

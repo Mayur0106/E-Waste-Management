@@ -50,4 +50,9 @@ module.exports = function (app) {
         ],
         controller.findCollector
     );
+
+    app.post(
+        API_CONTEXT + "/collectorAuth/updatePassword",
+        controller.changePassword
+    );
 }

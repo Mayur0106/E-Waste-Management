@@ -3,13 +3,13 @@ const db = require('../models');
 const Collector = db.collector;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const getCoordinatesForAddress = require('../util/location');
 
 exports.signup = async (req, res) => {
     try {
         const validationRules = {
             centerName: 'required',
             contactPerson: 'required',
-            // operatingHours: 'required',
             timeFrom: 'required',
             timeTo: 'required',
             latitude: 'required',
@@ -25,7 +25,7 @@ exports.signup = async (req, res) => {
             password: 'required|min:6',
         };
 
-        await validator(req.body, validationRules, {}, (error, status) => {
+        await validator(req.body, validationRules, {}, async (error, status) => {
             if (!status) {
                 return res.status(412)
                     .send({
@@ -34,16 +34,26 @@ exports.signup = async (req, res) => {
                         data: error
                     });
             }
+
+            // const address = `${req.body.city}, ${req.body.subDistrict}, ${req.body.district}, ${req.body.state}`
+            const address = `wagholi, pune, maharashtra`
+
+            let coordinates;
+            try {
+                const coordinates = await getCoordinatesForAddress(address);
+                console.log("coordinates are = ", coordinates);
+            } catch (error) {
+                return res.status(500).send({ success: false, message: error.message || "problem in fetching coordinates from address" });
+            }
             // else {
             Collector.create({
                 images: req.file.path,
                 centerName: req.body.centerName,
                 contactPerson: req.body.contactPerson,
-                // operatingHours: req.body.operatingHours,
                 timeFrom: req.body.timeFrom,
                 timeTo: req.body.timeTo,
-                latitude: req.body.latitude,
-                longitude: req.body.longitude,
+                latitude: coordinates.lat,
+                longitude: coordinates.lng,
                 acceptedItems: req.body.acceptedItems,
                 serviceOffered: req.body.serviceOffered,
                 email: req.body.email,
@@ -146,6 +156,45 @@ exports.findCollector = async (req, res) => {
         });
     } catch (error) {
         console.log("error in collectorAuth.controller.js :: findCollector() =>", error);
+        res.status(500).send({ success: false, message: error.message || "something went wrong" });
+    }
+}
+
+exports.changePassword = async (req, res) => {
+    try {
+        const validationRules = {
+            newPassword: 'required|min:6',
+        };
+
+        await validator(req.body, validationRules, {}, async (error, status) => {
+            if (!status) {
+                return res.status(412)
+                    .send({
+                        success: false,
+                        message: 'Validation failed',
+                        data: error
+                    });
+            }
+
+            const collector = await Collector.findOne({ where: { email: req.body.email } });
+
+            if (!collector) {
+                return res.status(404).json({
+                    success: false,
+                    message: "Collector not found."
+                });
+            }
+
+            collector.password = bcrypt.hashSync(req.body.newPassword, 8);
+            collector.save();
+
+            return res.status(200).json({
+                success: true,
+                message: "Password changed successfully!"
+            });
+        });
+    } catch (error) {
+        console.log("error in collectorAuth.controller.js :: changePassword() =>", error);
         res.status(500).send({ success: false, message: error.message || "something went wrong" });
     }
 }

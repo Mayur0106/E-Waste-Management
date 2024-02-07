@@ -31,9 +31,9 @@ module.exports = function (app) {
         API_CONTEXT + "/auth/signup",
         upload.single('photo'),
         [
-            verifySignUp.checkDuplicateUsername,
-            verifySignUp.checkDuplicateEmail,
-            verifySignUp.checkDuplicatePhone
+            // verifySignUp.checkDuplicateUsername,
+            // verifySignUp.checkDuplicateEmail,
+            // verifySignUp.checkDuplicatePhone
         ],
         controller.signup
     );
@@ -48,4 +48,9 @@ module.exports = function (app) {
         [authJWT.verifyToken],
         controller.getProfile
     )
+
+    app.post(
+        API_CONTEXT + "/auth/updatePassword",
+        controller.changePassword
+    );
 }

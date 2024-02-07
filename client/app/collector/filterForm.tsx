@@ -46,7 +46,7 @@ export default function filter() {
 
   return (
     <>
-      <div className="h-auto p-4 shadow-2xl w-96">
+      <div className="h-auto rounded-xl bg-white  p-4 m-4 shadow-2xl w-96">
         <form onSubmit={handleSubmit}>
           <label className="flex flex-col mt-2">
             <span className="mb-1">State Name:</span>
