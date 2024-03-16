@@ -42,7 +42,7 @@ export default function Header() {
   const router = useRouter();
 
   const handleProfileClick = () => {
-    console.log();
+    // console.log();
     console.info("You clicked a profile.");
     router.push("/userProfile");
   };

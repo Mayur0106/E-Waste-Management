@@ -36,15 +36,15 @@ exports.signup = async (req, res) => {
             }
 
             // const address = `${req.body.city}, ${req.body.subDistrict}, ${req.body.district}, ${req.body.state}`
-            const address = `wagholi, pune, maharashtra`
+            // const address = `wagholi, pune, maharashtra`
 
-            let coordinates;
-            try {
-                const coordinates = await getCoordinatesForAddress(address);
-                console.log("coordinates are = ", coordinates);
-            } catch (error) {
-                return res.status(500).send({ success: false, message: error.message || "problem in fetching coordinates from address" });
-            }
+            // let coordinates;
+            // try {
+            //     const coordinates = await getCoordinatesForAddress(address);
+            //     console.log("coordinates are = ", coordinates);
+            // } catch (error) {
+            //     return res.status(500).send({ success: false, message: error.message || "problem in fetching coordinates from address" });
+            // }
             // else {
             Collector.create({
                 images: req.file.path,
@@ -52,8 +52,8 @@ exports.signup = async (req, res) => {
                 contactPerson: req.body.contactPerson,
                 timeFrom: req.body.timeFrom,
                 timeTo: req.body.timeTo,
-                latitude: coordinates.lat,
-                longitude: coordinates.lng,
+                latitude: req.body.latitude,
+                longitude: req.body.longitude,
                 acceptedItems: req.body.acceptedItems,
                 serviceOffered: req.body.serviceOffered,
                 email: req.body.email,

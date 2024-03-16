@@ -5,9 +5,11 @@ import CustomMarker from "./customMarker";
 import { MapContainer, TileLayer, Marker, useMap, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { icon } from "leaflet";
+import { useRouter } from "next/navigation";
 // this map is implemented using react-leaflet
 
 const OpenStreetMap = (props) => {
+  const router = useRouter();
   const [map, setMap] = useState();
   const [center, setCenter] = useState({ lat: 18.590349, lng: 74.00468 });
   const ZOOM_LEVEL = 9;
@@ -21,16 +23,21 @@ const OpenStreetMap = (props) => {
     iconAnchor: [12, 41],
   });
 
+  const handleOnClick = (item) => {
+    router.push(`/collectorProfile`);
+    localStorage.setItem("collectorData", JSON.stringify(item));
+  };
+
   return (
     <>
-      <div className="container">
+      <div className="container h-full w-full">
         {/* <div className="container">
           <h1 className="text-center-mt-5">OpenStreetMap Embeded</h1>
         </div> */}
-        <div className="row">
-          <div className="col">
-            <div className="container">
-              <MapContainer whenReady={setMap} center={[center.lat, center.lng]} zoom={13} scrollWheelZoom={true} className="h-screen w-screen"  >
+        <div className="row h-full w-full">
+          <div className="col h-full w-full">
+            <div className="container h-full w-full">
+              <MapContainer whenReady={setMap} center={[center.lat, center.lng]} zoom={13} scrollWheelZoom={true} className="h-full w-full"  >
                 <TileLayer
                   attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -45,7 +52,7 @@ const OpenStreetMap = (props) => {
                         riseOnHover={true}
                       >
                         <Popup>
-                          <div className="max-w-sm rounded overflow-hidden shadow-lg">
+                          <div onClick={() => handleOnClick(collector)} className="cursor-pointer max-w-sm rounded overflow-hidden shadow-lg">
                             <img className="w-full" src={`${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}/${collector.images}`} alt={`Image of ${collector.centerName}`} />
                             <div className="px-6 py-4">
                               <div className="font-bold text-xl mb-2">{collector.centerName}</div>

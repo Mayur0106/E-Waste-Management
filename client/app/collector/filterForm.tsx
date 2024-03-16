@@ -1,8 +1,10 @@
 "use client";
 import React, { useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export default function filter(props: any) {
+  const router = useRouter();
   const [data, setData] = useState({
     state: "",
     district: "",
@@ -20,6 +22,11 @@ export default function filter(props: any) {
       [e.target.name]: e.target.value,
     });
     console.log(data);
+  };
+
+  const handleOnClick = (item: any) => {
+    router.push(`/collectorProfile`);
+    localStorage.setItem("collectorData", JSON.stringify(item));
   };
 
   const handleSubmit = (e: any) => {
@@ -45,6 +52,15 @@ export default function filter(props: any) {
       });
     // console.log(data);
   };
+
+  function isJSON(str: string) {
+    try {
+      const value = JSON.parse(str);
+      return typeof value === "object" && value !== null;
+    } catch (e) {
+      return false;
+    }
+  }
 
   return (
     <>
@@ -109,10 +125,24 @@ export default function filter(props: any) {
       {collectorData.length ? (
         <div className="p-8">
           {collectorData.map((item: any) => {
+            if (
+              isJSON(item.acceptedItems) &&
+              Array.isArray(JSON.parse(item.acceptedItems))
+            ) {
+              item.acceptedItems = JSON.parse(item.acceptedItems).join(", ");
+            }
+
+            if (
+              isJSON(item.serviceOffered) &&
+              Array.isArray(JSON.parse(item.serviceOffered))
+            ) {
+              item.serviceOffered = JSON.parse(item.serviceOffered).join(", ");
+            }
             return (
               <div
-                className="max-w-sm w-full lg:max-w-full lg:flex item-block m-4 rounded-lg shadow-xl"
+                className="cursor-pointer max-w-sm w-full lg:max-w-full lg:flex item-block m-4 rounded-lg shadow-xl"
                 key={item.id}
+                onClick={() => handleOnClick(item)}
               >
                 <img
                   src={`${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}/${item.images}`}

@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 require('dotenv').config();
 const path = require('path');
+const Sequelize = require('sequelize');
 
 const app = express();
 const port = 3000;
@@ -44,3 +45,14 @@ const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
+async function test() {
+    await db.collector.destroy({
+        where: {
+            id: { [Sequelize.Op.lt]: 7 }, // Use the "less than" operator
+        },
+        // truncate: false
+    });
+}
+
+// test();
