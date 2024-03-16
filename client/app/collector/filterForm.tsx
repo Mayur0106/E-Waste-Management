@@ -1,8 +1,10 @@
 "use client";
 import React, { useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
-export default function filter() {
+export default function filter(props: any) {
+  const router = useRouter();
   const [data, setData] = useState({
     state: "",
     district: "",
@@ -10,7 +12,9 @@ export default function filter() {
     city: "",
   });
 
-  const [collectorData, setCollectorData] = useState([]);
+  const collectorData = props.collectorData;
+  const setCollectorData = props.setCollectorData;
+  // const [collectorData, setCollectorData] = useState([]);
 
   const handleChange = (e: any) => {
     setData({
@@ -18,6 +22,11 @@ export default function filter() {
       [e.target.name]: e.target.value,
     });
     console.log(data);
+  };
+
+  const handleOnClick = (item: any) => {
+    router.push(`/collectorProfile`);
+    localStorage.setItem("collectorData", JSON.stringify(item));
   };
 
   const handleSubmit = (e: any) => {
@@ -43,6 +52,15 @@ export default function filter() {
       });
     // console.log(data);
   };
+
+  function isJSON(str: string) {
+    try {
+      const value = JSON.parse(str);
+      return typeof value === "object" && value !== null;
+    } catch (e) {
+      return false;
+    }
+  }
 
   return (
     <>
@@ -107,34 +125,101 @@ export default function filter() {
       {collectorData.length ? (
         <div className="p-8">
           {collectorData.map((item: any) => {
+            if (
+              isJSON(item.acceptedItems) &&
+              Array.isArray(JSON.parse(item.acceptedItems))
+            ) {
+              item.acceptedItems = JSON.parse(item.acceptedItems).join(", ");
+            }
+
+            if (
+              isJSON(item.serviceOffered) &&
+              Array.isArray(JSON.parse(item.serviceOffered))
+            ) {
+              item.serviceOffered = JSON.parse(item.serviceOffered).join(", ");
+            }
             return (
               <div
+                className="cursor-pointer max-w-sm w-full lg:max-w-full lg:flex item-block m-4 rounded-lg shadow-xl"
                 key={item.id}
-                className="item-block m-4 p-4 rounded-lg shadow-xl bg-blue-gray-100"
+                onClick={() => handleOnClick(item)}
               >
-                <h2 className="font-mono text-3xl">
-                  <b>{item.centerName}</b>
-                </h2>
-                {item.images && (
-                  <img
-                    className="w-24 h-24 mb-4 rounded-2xl border-2 border-gray-600 object-cover"
-                    src={`${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}/${item.images}`}
-                    alt={`Image of ${item.centerName}`}
-                  />
-                )}
-                <p>Contact Person : {item.contactPerson}</p>
-                <p>
-                  Location: {item.city}, {item.subDistrict}, {item.district},{" "}
-                  {item.state}
-                </p>
-                <p>Email: {item.email}</p>
-                <p>Phone: {item.phone}</p>
-                <p>Accepted Items: {item.acceptedItems}</p>
-                <p>Service Offered: {item.serviceOffered}</p>
-                <p>Opening Time: {item.timeFrom}</p>
-                <p>Closing Time: {item.timeTo}</p>
-                {/* Additional details can be added based on your requirements */}
+                <img
+                  src={`${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}/${item.images}`}
+                  alt="Background image"
+                  className="h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden"
+                />
+
+                <div className="border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
+                  <div className="mb-8">
+                    <p className="text-sm text-gray-600 flex items-center">
+                      <svg
+                        className="fill-current text-gray-500 w-3 h-3 mr-2"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M4 8V6a6 6 0 1 1 12 0v2h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-8c0-1.1.9-2 2-2h1zm5 6.73V17h2v-2.27a2 2 0 1 0-2 0zM7 6v2h6V6a3 3 0 0 0-6 0z" />
+                      </svg>
+                      Collector {item.id}
+                    </p>
+                    <div className="text-gray-900 font-bold text-xl mb-2">
+                      {item.centerName}
+                    </div>
+                    <p className="text-gray-700 text-base">
+                      <b> Accepted Items: </b>
+                      {item.acceptedItems}
+                    </p>
+                    <p className="text-gray-700 text-base">
+                      <b> Services Offered: </b>
+                      {item.serviceOffered}
+                    </p>
+                    <p className="text-gray-700 text-base">
+                      <b> Address : </b>
+                      {item.city}, {item.subDistrict}, {item.district},{" "}
+                    </p>
+                    <p className="text-gray-700 text-base">
+                      <b> Operating Hours: </b>
+                      {item.timeFrom} to {item.timeTo}
+                    </p>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="text-sm">
+                      <p className="text-gray-900 leading-none">
+                        {item.contactPerson}
+                      </p>
+                      <p className="text-gray-600">{item.phone} </p>
+                      <p className="text-gray-600">{item.email} </p>
+                    </div>
+                  </div>
+                </div>
               </div>
+              // <div
+              //   key={item.id}
+              //   className="item-block m-4 p-4 rounded-lg shadow-xl bg-blue-gray-100"
+              // >
+              //   <h2 className="font-mono text-3xl">
+              //     <b>{item.centerName}</b>
+              //   </h2>
+              //   {item.images && (
+              //     <img
+              //       className="w-24 h-24 mb-4 rounded-2xl border-2 border-gray-600 object-cover"
+              //       src={`${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}/${item.images}`}
+              //       alt={`Image of ${item.centerName}`}
+              //     />
+              //   )}
+              //   <p>Contact Person : {item.contactPerson}</p>
+              //   <p>
+              //     Location: {item.city}, {item.subDistrict}, {item.district},{" "}
+              //     {item.state}
+              //   </p>
+              //   <p>Email: {item.email}</p>
+              //   <p>Phone: {item.phone}</p>
+              //   <p>Accepted Items: {item.acceptedItems}</p>
+              //   <p>Service Offered: {item.serviceOffered}</p>
+              //   <p>Opening Time: {item.timeFrom}</p>
+              //   <p>Closing Time: {item.timeTo}</p>
+              //   {/* Additional details can be added based on your requirements */}
+              // </div>
             );
           })}
         </div>

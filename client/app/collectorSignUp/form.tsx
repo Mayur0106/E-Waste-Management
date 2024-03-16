@@ -144,8 +144,27 @@ export default function Form() {
     },
   ];
 
-  const handleSubmits = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmits = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const address = encodeURIComponent(
+      `${data.city}, ${data.subDistrict}, ${data.district}, ${data.state}`
+    );
+
+    const res = await axios.get(
+      `https://geocode.search.hereapi.com/v1/geocode?q=${address}&apiKey=${process.env.NEXT_PUBLIC_HERE_MAP_API_KEY}`
+    );
+
+    if (!Array.isArray(res.data.items) || res.data.items.length === 0) {
+      toast.error("Invalid address", {
+        position: "bottom-right",
+      });
+      return;
+    }
+
+    // console.log(res.data.items[0].position);
+    // console.log(res);
+
     if (data.password !== data.confirmPassword) {
       toast.error("Password does not match", {
         position: "bottom-right",
@@ -186,8 +205,8 @@ export default function Form() {
     formData.append("district", data.district);
     formData.append("subDistrict", data.subDistrict);
     formData.append("phone", data.phoneNumber);
-    formData.append("longitude", "90.777");
-    formData.append("latitude", "40.45");
+    formData.append("longitude", res.data.items[0].position.lng);
+    formData.append("latitude", res.data.items[0].position.lat);
     formData.append("timeFrom", data.timeFrom);
     formData.append("timeTo", data.timeTo);
     formData.append("acceptedItems", JSON.stringify(items));
@@ -196,7 +215,7 @@ export default function Form() {
     formData.append("confirmPassword", data.confirmPassword);
 
     try {
-      axios
+      await axios
         .post(
           `${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}/api/collectorAuth/signup`,
           formData,

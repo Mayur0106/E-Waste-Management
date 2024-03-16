@@ -26,6 +26,28 @@ export default function Form() {
 
   const handleSubmits = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const address = encodeURIComponent(
+      `${data.city}, ${data.district}, ${data.subDistrict}, ${data.state}`
+    );
+
+    // console.log(address);
+
+    const res = await axios.get(
+      `https://geocode.search.hereapi.com/v1/geocode?q=${address}&apiKey=${process.env.NEXT_PUBLIC_HERE_MAP_API_KEY}`
+    );
+
+    // console.log(res.data.items[0].position);
+
+    if (!Array.isArray(res.data.items) || res.data.items.length === 0) {
+      toast.error("Invalid address", {
+        position: "bottom-right",
+      });
+      return;
+    }
+
+    console.log(res.data.items[0]);
+
     if (data.password !== data.confirmPassword) {
       toast.error("Password and confirm password does not match", {
         position: "bottom-right",
