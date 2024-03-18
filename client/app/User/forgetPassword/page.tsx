@@ -4,8 +4,16 @@ import OtpPage from "./otp";
 import EmailPage from "./email";
 import PasswordPage from "./password";
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 
-export default function page({ Role }: { Role: string }) {
+export default function page({}) {
+  const searchParams = useSearchParams();
+  let Role = searchParams.get("Role") as string;
+
+  if (typeof Role === "undefined") {
+    return <div>Role is undefined</div>;
+  }
+
   const [page, setPage] = useState<string>("email"); // ["email", "otp", "password"]
   const [email, setEmail] = useState<string>("");
   const changePage = (page: string) => {

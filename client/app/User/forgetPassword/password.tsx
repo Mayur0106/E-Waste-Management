@@ -2,6 +2,7 @@ import React from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 interface ChildComponentProps {
   email: string;
@@ -14,6 +15,7 @@ const PasswordPage: React.FC<ChildComponentProps> = ({
   changeParentState,
   role,
 }) => {
+  const router = useRouter();
   const [password, setPassword] = React.useState<string>("");
   const [confirmPassword, setConfirmPassword] = React.useState<string>("");
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,12 +33,15 @@ const PasswordPage: React.FC<ChildComponentProps> = ({
       return;
     }
     console.log(password, confirmPassword);
+    var pushUrl = "" as string;
 
     var url;
     if (role === "User") {
       url = `${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}/api/auth/updatePassword`;
+      pushUrl = "/login";
     } else {
       url = `${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}/api/collectorAuth/updatePassword`;
+      pushUrl = "/collectorLogin";
     }
 
     axios
@@ -49,9 +54,10 @@ const PasswordPage: React.FC<ChildComponentProps> = ({
         toast.success("Password reset successfully", {
           position: "bottom-right",
         });
-        changeParentState("email");
+        router.push(pushUrl);
       })
       .catch((err) => {
+        router.push(pushUrl);
         console.error(err);
         toast.error("Error resetting password", {
           position: "bottom-right",

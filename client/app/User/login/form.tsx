@@ -13,7 +13,6 @@ const Form = () => {
   const [data, setData] = useState({ email: "", password: "" });
   const handleSubmits = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // console.log("submit");
     axios
       .post(
         `${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}/api/auth/signin`,
@@ -106,7 +105,7 @@ const Form = () => {
           </label>
           <div className="text-sm">
             <a
-              href="#"
+              href="/forgetPassword?Role=User"
               className="font-semibold text-indigo-600 hover:text-indigo-500"
             >
               Forgot password?
