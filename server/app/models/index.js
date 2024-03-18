@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { Sequelize, DataTypes } = require('sequelize');
 
 const sequelize = new Sequelize(
@@ -8,6 +9,7 @@ const sequelize = new Sequelize(
         host: process.env.HOST,
         dialect: process.env.DIALECT || 'postgres',
     });
+
 
 
 const testDbConnection = async () => {

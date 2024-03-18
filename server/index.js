@@ -31,7 +31,7 @@ db.sequelize.sync({ alter: true }).then(() => {
 
 // simple route
 app.get('/', (req, res) => {
-    res.send('welcome to e-waste management server!');
+    res.send('welcome to e-waste management server! ');
 });
 
 require('./app/routes/auth.routes')(app);
