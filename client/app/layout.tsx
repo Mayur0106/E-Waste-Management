@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-
+import React from 'react';
 // import Home from "./Home/home";
 import "./styles/globals.css";
 import { Disclosure } from "@headlessui/react";

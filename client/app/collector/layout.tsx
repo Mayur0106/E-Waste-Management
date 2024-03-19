@@ -26,6 +26,7 @@ export default function RootLayout({
       <body suppressHydrationWarning={true}>
         <section className="flex flex-col min-h-screen">
           <Header />
+
           {children}
           <ToastContainer />
         </section>

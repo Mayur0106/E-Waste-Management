@@ -1,0 +1,140 @@
+import React, { useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+interface CartItem {
+  product: string;
+  quantity: number;
+}
+
+const OrderPage: React.FC = () => {
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [product, setProduct] = useState<string>("");
+  const [quantity, setQuantity] = useState<number>(1);
+  // const [selectedValue, setSelectedValue] = useState("");
+
+  const collectorData = JSON.parse(
+    localStorage.getItem("collectorData") as string
+  );
+
+  const items = collectorData.acceptedItems.split(", ");
+  console.log(items);
+
+  // Function to add an item to the cart
+  const addToCart = (product: string, quantity: number) => {
+    if (product.trim() === "") {
+      return toast.error("Product name cannot be empty", {
+        position: "bottom-right",
+      });
+    }
+
+    if (quantity <= 0) {
+      return toast.error("Quantity must be greater than 0", {
+        position: "bottom-right",
+      });
+    }
+
+    // Check if the product is already in the cart
+    const existingItem = cart.find((item) => item.product === product);
+
+    if (existingItem) {
+      // If the product exists, update its quantity
+      const updatedCart = cart.map((item) =>
+        item.product === product ? { ...item, quantity } : item
+      );
+      setCart(updatedCart);
+    } else {
+      // If the product is new, add it to the cart
+      setCart([...cart, { product, quantity }]);
+    }
+
+    console.log(cart);
+  };
+
+  // Function to remove an item from the cart
+  const removeFromCart = (product: string) => {
+    setCart(cart.filter((item) => item.product !== product));
+  };
+
+  return (
+    <div className="bg-blue-100 h-screen p-8">
+      <h1 className="font-bold text-3xl m-2 border-b-2 border-blue-800">
+        Order
+      </h1>
+      <div>
+        <h2 className="font-bold text-2xl m-1">Shopping Cart</h2>
+        <div className="border-2 border-blue-gray-500 p-1 m-2 rounded-2xl">
+          {/* Input fields for product and quantity */}
+          <select
+            id="mySelect"
+            className="m-1 p-1 border-2 border-gray-400 rounded-md"
+            value={product}
+            onChange={(e) => setProduct(e.target.value)}
+          >
+            <option value="" disabled hidden>
+              {product ? product : "Select a product"}
+            </option>
+            {items.map((item: string) => (
+              <option key={item} value={item}>
+                {item}
+              </option>
+            ))}
+          </select>
+          {/* <input
+            type="text"
+            className="m-1 p-1 border-2 border-gray-400 rounded-md"
+            placeholder="Enter product name"
+            value={product}
+            onChange={(e) => setProduct(e.target.value)}
+          /> */}
+          <input
+            type="number"
+            className="m-1 p-1 border-2 border-gray-400 rounded-md"
+            placeholder="Enter quantity"
+            value={quantity}
+            onChange={(e) => setQuantity(parseInt(e.target.value))}
+          />
+          <button
+            className="bg-red-200 m-2 rounded-md border-red-600 border-1 p-1 hover:bg-red-300"
+            onClick={() => addToCart(product, quantity)}
+          >
+            Add to Cart
+          </button>
+        </div>
+        <h3 className="font-bold text-2xl m-1">Cart Contents:</h3>
+        <div className="border-2 border-blue-gray-500 p-1 m-2 rounded-2xl">
+          <table className="rounded-xl m-2">
+            <thead className="border-black border-2 p-2 m-1">
+              <tr className="border-black border-2 p-2 m-1">
+                <th className="border-black border-2 p-2 m-1">Product</th>
+                <th className="border-black border-2 p-2 m-1">Quantity</th>
+              </tr>
+            </thead>
+            <tbody className="border-black border-2 p-2 m-1">
+              {cart.map((item) => (
+                <tr key={item.product}>
+                  <td className="border-black border-2 p-2 m-1">
+                    {item.product}
+                  </td>
+                  <td className="border-black border-2 p-2 m-1">
+                    {item.quantity}
+                  </td>
+                  <td className="border-black border-2 p-2 m-1">
+                    <button
+                      className="p-1 m-1 bg-deep-orange-500 border-red-700 border-2 rounded-md hover:bg-red-3"
+                      onClick={() => removeFromCart(item.product)}
+                    >
+                      Remove
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default OrderPage;

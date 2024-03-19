@@ -5,26 +5,25 @@ import { Fragment, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import header from "../styles/Header.module.css";
-import CoinBadge from "./CoinBadge";
 import { useRouter } from "next/navigation";
 
 //import slider from './slider';
 
 const coinCount = 16;
-const User = JSON.parse(localStorage.getItem("user") || "");
 
 const user = {
-  name: User.userName,
-  email: User.email,
-  imageUrl: `${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}/${User.profileImage}`,
+  name: "Tom Cook",
+  email: "tom@example.com",
+  imageUrl:
+    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
 };
 
 const navigation = [
-  { name: "Dashboard", href: "/" },
-  { name: "Collector", href: "/collector" },
+  { name: "Dashboard", href: "/collector" },
+  { name: "Collector", href: "/collector/collector_side" },
   { name: "Projects", href: "#" },
   { name: "Calendar", href: "#" },
-  { name: "Reports", href: "#" },
+  { name: "Reports", href: "/collector/report" },
 ];
 
 const userNavigation = [
@@ -42,10 +41,14 @@ export default function Header() {
   const router = useRouter();
 
   const handleProfileClick = () => {
-    // console.log();
+    console.log();
     console.info("You clicked a profile.");
     router.push("/userProfile");
   };
+
+  const goToCollector = () => {
+  router.push("/collector");
+  }
   return (
     <>
       <div className="min-h-full">
@@ -64,7 +67,7 @@ export default function Header() {
                             loading="lazy"
                             className={`${"h-8 w-8"}  ${header.slide}`}
                             src="/logo1.png"
-                            alt="Your Company"
+                            alt="Your Company" onClick={goToCollector}
                           />
                         </div>
                       </div>
@@ -92,10 +95,10 @@ export default function Header() {
                     </div>
                   </div>
 
-                  <div className={header.coinBadge}>
+                  {/* <div className={header.coinBadge}>
                     {" "}
                     <CoinBadge count={coinCount} />{" "}
-                  </div>
+                  </div> */}
 
                   <div className="hidden md:block">
                     <div className="ml-4 flex items-center md:ml-6">
@@ -115,10 +118,10 @@ export default function Header() {
                             <span className="absolute -inset-1.5" />
                             <span className="sr-only">Open user menu</span>
                             <img
-                              // loading="lazy"
+                              loading="lazy"
                               // onClick={handleClick}
                               className="h-8 w-8 rounded-full"
-                              src={`${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}/${User.profileImage}`}
+                              src={user.imageUrl}
                               alt=""
                             />
                           </Menu.Button>

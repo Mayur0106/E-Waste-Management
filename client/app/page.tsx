@@ -7,6 +7,7 @@ import Link from "next/link";
 //import Collector from "./Collector/page";
 // import home from "./User/HomeP/page";
 // import collector from "./Collector/page";
+import Image from "next/image";
 
 export default function Home() {
 
@@ -16,30 +17,48 @@ export default function Home() {
   };
 
   return (
+    <>
     <div className={styles.container}>
       
-    <h1>Welcome to E-Waste Management</h1>
-    <p>Are you a User or a Collector?</p>
-    <div className={styles.options}>
-
-    <Link href="/User" className={styles.option} >
-        <div onClick={handleClick} >
-          <div className={styles.optionContent}>
-            <h2>User</h2>
-            <p>Find out how you can dispose of your e-waste responsibly.</p>
+      <h1>Welcome to E-Waste Management</h1>
+      <p>Are you a User or a Collector?</p>
+      <div className={styles.options}>
+  
+      <Link href="/User" className={styles.option} >
+          <div onClick={handleClick} >
+          <Image
+            priority={true}
+            className="h-auto w-auto"
+            src="/single_user.png"
+            alt="Description of the image"
+            width={35}
+            height={300}
+          />
+            <div className={styles.optionContent}>
+              <h2>User</h2>
+              <p>Find out how you can dispose of your e-waste responsibly.</p>
+            </div>
           </div>
-        </div>
-      </Link>
-        <Link href="/Collector" className={styles.option} >
-        <div onClick={handleClick} >
-          <div className={styles.optionContent}>
-            <h2>Collector</h2>
-            <p>Learn how you can contribute by collecting e-waste from users.</p>
+        </Link>
+          <Link href="/collector" className={styles.option} >
+          <div onClick={handleClick} >
+          <Image
+            priority={true}
+            className="h-auto w-auto"
+            src="/multiple_user.png"
+            alt="Description of the image"
+            width={64}
+            height={37}
+          />
+            <div className={styles.optionContent}>
+              <h2>Collector</h2>
+              <p>Learn how you can contribute by collecting e-waste from users.</p>
+            </div>
           </div>
-        </div>
-      </Link>
+        </Link>
+      </div>
     </div>
-  </div>
+    </>
   );
 }
 
