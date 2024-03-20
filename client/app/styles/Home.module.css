@@ -40,3 +40,29 @@
   .option p {
     color: #666;
   }
+
+  .fstyleP{
+
+
+    
+    color: #333;
+
+     font-family: "Lucida Console", monospace;
+    font-size: 52px;
+    font-weight: bold;
+    text-transform: uppercase;
+    
+    font-weight: bold; 
+
+   
+  }
+  .fstyleC{
+
+    color: #4CAF50;
+    font-family: "Lucida Console", monospace;
+   font-size: 30px;
+   font-weight: bold;
+   
+   
+   font-weight: bold; 
+  }

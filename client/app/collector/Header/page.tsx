@@ -22,7 +22,7 @@ const navigation = [
   { name: "Dashboard", href: "/collector" },
   { name: "Collector", href: "/collector/collector_side" },
   { name: "Projects", href: "#" },
-  { name: "Calendar", href: "#" },
+  { name: "Calendar", href: "/collector/Calender" },
   { name: "Reports", href: "/collector/report" },
 ];
 

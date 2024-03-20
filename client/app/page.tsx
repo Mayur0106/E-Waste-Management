@@ -2,7 +2,9 @@
 
 // import Image from "next/image";
 import Link from "next/link";
- import styles from './styles/Home.module.css';
+import "./styles/globals.css";
+import "animate.css";
+import styles from './styles/Home.module.css';
  import { useRouter } from 'next/router';
 //import Collector from "./Collector/page";
 // import home from "./User/HomeP/page";
@@ -19,9 +21,16 @@ export default function Home() {
   return (
     <>
     <div className={styles.container}>
-      
-      <h1>Welcome to E-Waste Management</h1>
-      <p>Are you a User or a Collector?</p>
+    <div className={styles.fstyleP}>
+    <h1 className="animate__animated animate__fadeInTopLeft">
+            {" "}
+            Welcome to E-Waste Management
+          </h1>
+    </div>
+    <div className={styles.fstyleC}>
+          <p className="animate__animated animate__fadeInTopRight" > {" "} Are you a User or a Collector?</p>
+    </div>
+    
       <div className={styles.options}>
   
       <Link href="/User" className={styles.option} >
