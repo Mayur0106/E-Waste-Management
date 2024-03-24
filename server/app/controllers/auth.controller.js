@@ -152,3 +152,42 @@ exports.changePassword = async (req, res) => {
         return res.status(500).send({ success: false, message: error.message || "something went wrong" })
     }
 }
+
+exports.createOrder = async (req, res) => {
+    try {
+        const validationRules = {
+            product: 'required',
+            description: 'required',
+            quantity: 'required|numeric',
+            collectorId: 'required|numeric',
+        };
+
+        await validator(req.body, validationRules, {}, async (error, status) => {
+            if (!status) {
+                return res.status(412)
+                    .send({
+                        success: false,
+                        message: 'Validation failed',
+                        data: error
+                    });
+            }
+
+            const order = await db.order.create({
+                product: req.body.product,
+                description: req.body.description,
+                quantity: req.body.quantity,
+                userId: req.userId,
+                collectorId: req.body.collectorId
+            });
+
+            return res.status(200).json({
+                success: true,
+                message: "Order created successfully!",
+                data: order
+            });
+        });
+    } catch (error) {
+        console.log("error in auth.controller.js :: createOrder() => error");
+        return res.status(500).send({ success: false, message: error.message || "something went wrong" })
+    }
+}

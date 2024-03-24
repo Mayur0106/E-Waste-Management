@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function filter(props: any) {
   const router = useRouter();
@@ -47,6 +49,9 @@ export default function filter(props: any) {
         console.log(collectorData);
       })
       .catch((err) => {
+        toast.error(err.message || "No collector found", {
+          position: "bottom-right",
+        });
         console.log(err);
         setCollectorData([]);
       });
