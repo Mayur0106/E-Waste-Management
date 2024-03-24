@@ -1,0 +1,10 @@
+.lmargin{
+   position: grid;
+   width: 360px;
+   margin-left: 40px;
+   background-color: #93c8a8;   
+   border-radius: 5px solid black;
+}
+.buttoncolor{
+   background-color:#2f7f5f;
+}

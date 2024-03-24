@@ -1,0 +1,32 @@
+.calendarContainer {
+    display: flex;
+    flex-direction: column;
+    max-width: 1200px;
+    margin: auto;
+  }
+  
+  .navigation {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+  }
+  
+  .daysOfWeek, .daysContainer {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .dayOfWeek, .day {
+    width: 14.28%;
+    text-align: center;
+  }
+  
+  
+  
+  .days:hover {
+    background-color: #38e647;
+  }
+  .hasEvent {
+    border-bottom: 3px solid red;
+  }
+  

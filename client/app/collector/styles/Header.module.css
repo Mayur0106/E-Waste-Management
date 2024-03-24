@@ -1,0 +1,35 @@
+.logoContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .circularBorder {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border:1px solid white; /* White circular border */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .circularBorder:hover{
+    background-color: #84d4a7;
+  }
+  .circularImage {
+   border-radius: 50%; /* Makes the image circular */
+  }
+  .coinBadge{
+    margin-left: 495px;
+    cursor: pointer;
+  }
+  .coinBadge:hover {
+    transform: scale(1.1); /* Increase size on hover */
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+  border: 2px solid white;
+  }
