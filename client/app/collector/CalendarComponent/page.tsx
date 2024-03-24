@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from 'react';
+//import "../styles/globals.css";
 import styles from  '../styles/CalendarComponent.module.css'; // Import custom styles
 // pages/DynamicCalendar.tsx
 
@@ -58,11 +59,18 @@ const CalendarComponent: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className={styles.mainContainer}>
+      
+      <div className={styles.navigationbuttons}>
       <div className="flex justify-between items-center p-4">
-        <button onClick={handlePrevMonth}>&lt; Prev</button>
-        <h2>{currentMonth.toLocaleDateString('default', { month: 'long', year: 'numeric' })}</h2>
-        <button onClick={handleNextMonth}>Next &gt;</button>
+        <div className={styles.navbutton}>
+          <button onClick={handlePrevMonth}>&lt; Prev</button>
+        </div>
+        <h2 className={styles.responsivebox}>{currentMonth.toLocaleDateString('default', { month: 'long', year: 'numeric' })}</h2>
+        <div  className={styles.navbutton}>
+          <button onClick={handleNextMonth}>Next &gt;</button>
+        </div>
+      </div>
       </div>
       <div className="grid grid-cols-7">
         {daysOfWeek.map((day) => (
