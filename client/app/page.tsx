@@ -59,7 +59,7 @@ export default function Home() {
             width={64}
             height={37}
           />
-            <div className={styles.optionContent}>
+            <div className={`${styles.optionContent}`} >
               <h2>Collector</h2>
               <p>Learn how you can contribute by collecting e-waste from users.</p>
             </div>
@@ -73,6 +73,9 @@ export default function Home() {
 
 /*
 <Link href="/login">
+
+         className={`${styles.optionContent} ${styles.mainContainer}`
+
         <button className={layout.signin} type="button">
           Sign In
         </button>
