@@ -1,0 +1,85 @@
+
+
+.calendarContainer {
+    display: flex;
+    flex-direction: column;
+    max-width: 1200px;
+    margin: auto;
+  }
+  
+  .navigation {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+  }
+  
+  .daysOfWeek, .daysContainer {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .dayOfWeek, .day {
+    width: 14.28%;
+    text-align: center;
+  }
+  
+  
+  
+  .days:hover {
+    background-color: #38e647;
+  }
+  .hasEvent {
+    border-bottom: 3px solid red;
+  }
+  .navigationbuttons {
+    display: flex;
+   justify-content: center;
+   /* Increased space between buttons */
+   gap: 10px;
+    margin-top: 20px;
+  }
+  .navbutton {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px; /* Rounded corners */
+    background-color: #007bff; /* Primary color, e.g., a nice blue */
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+
+    padding: 8px 16px;
+      font-size: 14px;
+
+  }
+
+.navbutton:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+  transform: scale(1.05); /* Slightly larger on hover */
+  }
+  @media (max-width: 768px) {
+    .navbutton {
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+    
+    .navigationbuttons {
+      gap: 20px; /* Smaller gap on smaller screens */
+    }
+  }
+
+  .responsivebox{
+    border: 2px solid #2d2f30; /* Example border color */
+    padding: 10px;
+    margin: 10px;
+    text-align: center;
+    padding-left: 30px;
+    padding-right: 30px;
+    
+  }
+@media (max-width: 768px) {
+  .responsive-box {
+    padding: 10px;
+    margin: 10px;
+  }
+}

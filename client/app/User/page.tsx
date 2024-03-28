@@ -9,7 +9,7 @@ import Footer from "./Footer/page";
 export default function Home() {
   return (
     <div>
-      <Link href="/login">
+      <Link href="/User/login">
         <button className={layout.signin} type="button">
           Sign In
         </button>

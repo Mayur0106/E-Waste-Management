@@ -27,7 +27,7 @@ export default function HomeMiddle() {
           </h1>
         </div>
         <div className={mpage.buttonbody}>
-          <Link href="/userSignUp">
+          <Link href="/collector/userSignUp">
             <button className={mpage.cssbutton}>
               {" "}
               Get started

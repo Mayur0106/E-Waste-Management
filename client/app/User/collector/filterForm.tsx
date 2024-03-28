@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -25,7 +26,7 @@ export default function filter(props: any) {
   };
 
   const handleOnClick = (item: any) => {
-    router.push(`/collectorProfile`);
+    router.push(`/User/collectorProfile`);
     localStorage.setItem("collectorData", JSON.stringify(item));
   };
 
