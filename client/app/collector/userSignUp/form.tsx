@@ -87,7 +87,7 @@ export default function Form() {
           toast.success("Registration Success", {
             position: "bottom-right",
           });
-          router.push("/login");
+          router.push("/collector/login");
         })
         .catch((err) => {
           console.log(err);

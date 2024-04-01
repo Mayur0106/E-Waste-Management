@@ -59,9 +59,9 @@ const CalendarComponent: React.FC = () => {
   };
 
   return (
-    <div className={styles.mainContainer}>
+    <div className={`${styles.mainContainer}`}>
       
-      <div className={styles.navigationbuttons}>
+      <div className={`${styles.navigationbuttons}`}>
       <div className="flex justify-between items-center p-4">
         <div className={styles.navbutton}>
           <button onClick={handlePrevMonth}>&lt; Prev</button>
@@ -98,22 +98,59 @@ const CalendarComponent: React.FC = () => {
           );
         })}
       </div>
-      <div className="p-4">
+      
+
+
+
+      <div className="h-half flex mt-1 sm:mt-2 md:mt-4">
+      {/* Left section */}
+      <div className="w-1/2 ">
+        <form onSubmit={handleAddEvent} className="p-4">
+        
+        <input
+          type="text"
+          placeholder="Event Name"
+          value={eventName}
+          onChange={(e) => setEventName(e.target.value)}
+          className="mr-2"
+        />
+        <input
+          type="date"
+          value={eventDate}
+          onChange={(e) => setEventDate(e.target.value)}
+          className="mr-2"
+        />
+        <button type="submit" className="hover:bg-gray-400 text-black font-bold py-2 px-4 rounded">Add Event</button>
+      </form>
+      </div>
+      {/* Right section */}
+      {/* <div className="w-1/2 bg-gray-400">
+        <p className="p-4">Right Section Content</p>
+      </div> */}
+
+      <div  className="w-1/2 bg-gray-300" >
         {selectedDate && (
-          <div>
+          <div className="p-4" >
             <h3>Events for {selectedDate}</h3>
             <ul>
-              {getEventsForDate(selectedDate).map(event => (
-                <li key={event.id} className="flex justify-between items-center">
-                  <span>{event.name}</span>
-                  <button onClick={() => handleDeleteEvent(event.id)} className="text-red-500 hover:text-red-700">Delete</button>
-                </li>
-              ))}
+              {getEventsForDate(selectedDate).map((event, index, array) => (
+              <li 
+              key={event.id} 
+              className={`flex justify-between items-center ${index < array.length - 1 ? 'pb-2 border-b' : 'pb-2'}  border-grey-500`}
+            >
+              <span>{event.name}</span>
+              <button onClick={() => handleDeleteEvent(event.id)} className="text-red-500 hover:text-red-700">Delete</button>
+              </li>
+          ))}
             </ul>
           </div>
         )}
       </div>
-      <form onSubmit={handleAddEvent} className="p-4">
+      </div>
+       
+
+      {/* <form onSubmit={handleAddEvent} className="p-4">
+        
         <input
           type="text"
           placeholder="Event Name"
@@ -128,7 +165,9 @@ const CalendarComponent: React.FC = () => {
           className="mr-2"
         />
         <button type="submit">Add Event</button>
-      </form>
+      </form> */}
+
+
     </div>
   );
 };

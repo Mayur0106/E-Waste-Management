@@ -1,16 +1,23 @@
 require('dotenv').config();
 const { Sequelize, DataTypes } = require('sequelize');
 
+
 const sequelize = new Sequelize(
-    process.env.DATABASE,
-    process.env.USER,
-    process.env.PASSWORD,
+    process.env.DATABASE, // Use the environment variable for  database
+    process.env.USER,     // Use the environment variable for  username
+    process.env.PASSWORD, // Use the environment variable for password
     {
-        host: process.env.HOST,
+        host: process.env.HOST,      // Use the environment variable for host
         dialect: process.env.DIALECT || 'postgres',
+        dialectOptions: {
+            ssl: {
+                require: true,
+                rejectUnauthorized: false // Add this option for database, as it uses SSL
+            }
+        }
     });
 
-
+    
 
 const testDbConnection = async () => {
     try {

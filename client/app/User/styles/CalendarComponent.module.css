@@ -7,7 +7,13 @@
     margin: auto;
   }
   
-  .navigation {
+  .mainContainer{
+    margin-left : 20px;
+    margin-right: 20px;
+  }
+
+
+   .navigation {
     display: flex;
     justify-content: space-between;
     padding: 10px;
