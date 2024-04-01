@@ -35,7 +35,7 @@ const Form = () => {
             console.log(user);
 
             localStorage.setItem("user", JSON.stringify(res.data.data));
-            router.push("/");
+            router.push("/collector/");
           })
           .catch((err) => {
             console.log(err);

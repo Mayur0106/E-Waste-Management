@@ -6,7 +6,13 @@
     max-width: 1200px;
     margin: auto;
   }
-  
+
+  .mainContainer{
+    margin-left : 20px;
+    margin-right: 20px;
+  }
+
+
   .navigation {
     display: flex;
     justify-content: space-between;

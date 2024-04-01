@@ -35,7 +35,7 @@ const Form = () => {
             console.log(user);
 
             localStorage.setItem("user", JSON.stringify(res.data.data));
-            router.push("/");
+            router.push("/User");
           })
           .catch((err) => {
             console.log(err);
@@ -135,7 +135,7 @@ const Form = () => {
       <p className="mt-10 text-center text-sm text-gray-500">
         Not a member?{" "}
         <a
-          href="/userSignUp"
+          href="/User/userSignUp"
           className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
         >
           Sign up now
