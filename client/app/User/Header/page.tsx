@@ -28,7 +28,7 @@ const navigation = [
 ];
 
 const userNavigation = [
-  { name: "Your Profile", href: "#" },
+  { name: "Your Profile", href: "User/userProfile" },
   { name: "Settings", href: "#" },
   { name: "Sign out", href: "#" },
 ];
@@ -41,15 +41,15 @@ export default function Header() {
   const [currentItem, setCurrentItem] = useState(navigation[0].name);
   const router = useRouter();
 
-  const handleProfileClick = () => {
-    console.log();
-    console.info("You clicked a profile.");
-    router.push("/User/userProfile");
-  };
+  // const handleProfileClick = () => {
+  //   console.log();
+  //   console.info("You clicked a profile.");
+  //   router.push("/User/userProfile");
+  // };
 
   const goToCollector = () => {
     router.push("/User");
-  }
+  };
 
   return (
     <>
@@ -69,7 +69,8 @@ export default function Header() {
                             loading="lazy"
                             className={`${"h-8 w-8"}  ${header.slide}`}
                             src="/logo1.png"
-                            alt="Your Company" onClick={goToCollector}
+                            alt="Your Company"
+                            onClick={goToCollector}
                           />
                         </div>
                       </div>
@@ -147,11 +148,9 @@ export default function Header() {
                                       active ? "bg-gray-100" : "",
                                       "block px-4 py-2 text-sm text-gray-700"
                                     )}
-                                    onClick={
-                                      item.name === "Your Profile"
-                                        ? handleProfileClick
-                                        : undefined
-                                    }
+                                    onClick={() => {
+                                      router.push(item.href);
+                                    }}
                                   >
                                     {item.name}
                                   </a>

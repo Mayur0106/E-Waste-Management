@@ -4,10 +4,16 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
-import loader from "../../utils/googleMapsLoader";
+// import loader from "../../utils/googleMapsLoader";
 // import {} from "googlemaps";
 
-export default function Form() {
+export default function Form({
+  changeParentState,
+  setEmail,
+}: {
+  changeParentState: (newState: string) => void;
+  setEmail: (email: string) => void;
+}) {
   const router = useRouter();
   const [file, setFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
@@ -231,7 +237,8 @@ export default function Form() {
           toast.success("Successfully Registered", {
             position: "bottom-right",
           });
-          router.push("/collectorLogin");
+          setEmail(data.email);
+          changeParentState("otp");
         })
         .catch((error) => {
           console.log(error);

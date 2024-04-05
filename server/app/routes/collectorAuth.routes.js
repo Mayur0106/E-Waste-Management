@@ -55,4 +55,28 @@ module.exports = function (app) {
         API_CONTEXT + "/collectorAuth/updatePassword",
         controller.changePassword
     );
+
+    app.post(
+        API_CONTEXT + "/collectorAuth/getOrders",
+        [authJWT.verifyToken],
+        controller.getOrders
+    );
+
+    app.post(
+        API_CONTEXT + "/collectorAuth/acceptOrder",
+        [authJWT.verifyToken],
+        controller.acceptOrder
+    );
+
+    app.post(
+        API_CONTEXT + "/collectorAuth/rejectOrder",
+        [authJWT.verifyToken],
+        controller.rejectOrder
+    );
+
+    app.post(
+        API_CONTEXT + "/collectorAuth/completeOrder",
+        [authJWT.verifyToken],
+        controller.completeOrder
+    );
 }

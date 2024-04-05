@@ -53,4 +53,10 @@ module.exports = function (app) {
         API_CONTEXT + "/auth/updatePassword",
         controller.changePassword
     );
+
+    app.post(
+        API_CONTEXT + "/auth/createOrder",
+        [authJWT.verifyToken],
+        controller.createOrder
+    );
 }

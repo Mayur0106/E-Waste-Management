@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
 interface CartItem {
   product: string;
+  description: string;
   quantity: number;
 }
 
@@ -11,14 +13,14 @@ const OrderPage: React.FC = () => {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [product, setProduct] = useState<string>("");
   const [quantity, setQuantity] = useState<number>(1);
-  // const [selectedValue, setSelectedValue] = useState("");
+  const [description, setDescription] = useState<string>("");
 
   const collectorData = JSON.parse(
     localStorage.getItem("collectorData") as string
   );
 
   const items = collectorData.acceptedItems.split(", ");
-  console.log(items);
+  console.log(collectorData);
 
   // Function to add an item to the cart
   const addToCart = (product: string, quantity: number) => {
@@ -40,20 +42,54 @@ const OrderPage: React.FC = () => {
     if (existingItem) {
       // If the product exists, update its quantity
       const updatedCart = cart.map((item) =>
-        item.product === product ? { ...item, quantity } : item
+        item.product === product ? { ...item, description, quantity } : item
       );
       setCart(updatedCart);
     } else {
       // If the product is new, add it to the cart
-      setCart([...cart, { product, quantity }]);
+      setCart([...cart, { product, description, quantity }]);
     }
-
-    console.log(cart);
   };
 
   // Function to remove an item from the cart
   const removeFromCart = (product: string) => {
     setCart(cart.filter((item) => item.product !== product));
+  };
+
+  const handleSubmit = () => {
+    console.log("Submitting order");
+    // console.log(cart);
+    try {
+      for (let item of cart) {
+        console.log(item);
+        // Send the order to the server
+        axios
+          .post(
+            "http://localhost:8080/api/auth/createOrder",
+            {
+              product: item.product,
+              quantity: item.quantity,
+              description: item.description,
+              collectorId: collectorData.id,
+            },
+            {
+              headers: {
+                "x-access-token": localStorage.getItem("token"),
+              },
+            }
+          )
+          .then((res) => {
+            console.log(res.data);
+            toast.success("Order submitted successfully", {
+              position: "bottom-right",
+            });
+          });
+      }
+    } catch (error) {
+      return toast.error("Error submitting order", {
+        position: "bottom-right",
+      });
+    }
   };
 
   return (
@@ -80,13 +116,13 @@ const OrderPage: React.FC = () => {
               </option>
             ))}
           </select>
-          {/* <input
+          <input
             type="text"
             className="m-1 p-1 border-2 border-gray-400 rounded-md"
-            placeholder="Enter product name"
-            value={product}
-            onChange={(e) => setProduct(e.target.value)}
-          /> */}
+            placeholder="Enter product description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
           <input
             type="number"
             className="m-1 p-1 border-2 border-gray-400 rounded-md"
@@ -132,6 +168,14 @@ const OrderPage: React.FC = () => {
             </tbody>
           </table>
         </div>
+        <button
+          onClick={handleSubmit}
+          className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800"
+        >
+          <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+            Submit
+          </span>
+        </button>
       </div>
     </div>
   );

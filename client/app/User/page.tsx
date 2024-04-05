@@ -21,7 +21,9 @@ export default function Home() {
       <div className={layout.card}>
         <CardContainer />
       </div>
-      <div>{Footer()}</div>
+      <div>
+        <Footer />
+      </div>
     </div>
   );
 }

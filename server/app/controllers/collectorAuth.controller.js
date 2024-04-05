@@ -1,6 +1,7 @@
 const validator = require('../config/validator');
 const db = require('../models');
 const Collector = db.collector;
+const Order = db.order;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const getCoordinatesForAddress = require('../util/location');
@@ -195,6 +196,169 @@ exports.changePassword = async (req, res) => {
         });
     } catch (error) {
         console.log("error in collectorAuth.controller.js :: changePassword() =>", error);
+        res.status(500).send({ success: false, message: error.message || "something went wrong" });
+    }
+}
+
+exports.acceptOrder = async (req, res) => {
+    try {
+        const validationRules = {
+            orderId: 'required',
+        };
+
+        await validator(req.body, validationRules, {}, async (error, status) => {
+            if (!status) {
+                return res.status(412)
+                    .send({
+                        success: false,
+                        message: 'Validation failed',
+                        data: error
+                    });
+            }
+
+            const order = await Order.findOne({ where: { id: req.body.orderId } });
+
+            if (!order) {
+                return res.status(404).json({
+                    success: false,
+                    message: "Order not found."
+                });
+            }
+
+            if (order.completed === true) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Order already completed."
+                });
+            }
+
+            order.accepted = true;
+            order.rejected = false;
+            order.save();
+
+            return res.status(200).json({
+                success: true,
+                message: "Order accepted successfully!"
+            });
+        });
+    } catch (error) {
+        console.log("error in collectorAuth.controller.js :: acceptOrder() =>", error);
+        res.status(500).send({ success: false, message: error.message || "something went wrong" });
+    }
+}
+
+exports.rejectOrder = async (req, res) => {
+    try {
+        const validationRules = {
+            orderId: 'required',
+        };
+
+        await validator(req.body, validationRules, {}, async (error, status) => {
+            if (!status) {
+                return res.status(412)
+                    .send({
+                        success: false,
+                        message: 'Validation failed',
+                        data: error
+                    });
+            }
+
+            const order = await Order.findOne({ where: { id: req.body.orderId } });
+
+            if (!order) {
+                return res.status(404).json({
+                    success: false,
+                    message: "Order not found."
+                });
+            }
+
+            // if (order.completed === true) {
+            //     return res.status(400).json({
+            //         success: false,
+            //         message: "Order already completed."
+            //     });
+            // }
+
+            order.accepted = false;
+            order.completed = false;
+            order.rejected = true;
+            order.save();
+
+            return res.status(200).json({
+                success: true,
+                message: "Order rejected successfully!"
+            });
+        });
+    } catch (error) {
+        console.log("error in collectorAuth.controller.js :: rejectOrder() =>", error);
+        res.status(500).send({ success: false, message: error.message || "something went wrong" });
+    }
+}
+
+exports.completeOrder = async (req, res) => {
+    try {
+        const validationRules = {
+            orderId: 'required',
+        };
+
+        await validator(req.body, validationRules, {}, async (error, status) => {
+            if (!status) {
+                return res.status(412)
+                    .send({
+                        success: false,
+                        message: 'Validation failed',
+                        data: error
+                    });
+            }
+
+            const order = await Order.findOne({ where: { id: req.body.orderId } });
+
+            if (!order) {
+                return res.status(404).json({
+                    success: false,
+                    message: "Order not found."
+                });
+            }
+
+            if (order.accepted === false) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Order not accepted yet."
+                });
+            }
+
+            order.completed = true;
+            order.save();
+
+            return res.status(200).json({
+                success: true,
+                message: "Order completed successfully!"
+            });
+        });
+    } catch (error) {
+        console.log("error in collectorAuth.controller.js :: completeOrder() =>", error);
+        res.status(500).send({ success: false, message: error.message || "something went wrong" });
+    }
+}
+
+exports.getOrders = async (req, res) => {
+    try {
+        const orders = await Order.findAll({ where: { collectorId: req.userId } });
+
+        if (!orders.length) {
+            return res.status(404).json({
+                success: false,
+                message: "Orders not found."
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Orders found successfully!",
+            data: orders
+        });
+    } catch (error) {
+        console.log("error in collectorAuth.controller.js :: getOrders() =>", error);
         res.status(500).send({ success: false, message: error.message || "something went wrong" });
     }
 }
