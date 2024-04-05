@@ -27,7 +27,7 @@ export default function filter(props: any) {
   };
 
   const handleOnClick = (item: any) => {
-    router.push(`/collectorProfile`);
+    router.push(`collectorProfile`);
     localStorage.setItem("collectorData", JSON.stringify(item));
   };
 

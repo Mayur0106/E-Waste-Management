@@ -24,12 +24,12 @@ export default function RootLayout({
     <html lang="en">
       <head></head>
       <body suppressHydrationWarning={true}>
-        <section className="flex flex-col min-h-screen">
+        <div className="flex flex-col min-h-screen">
           <Header />
 
           {children}
-          <ToastContainer />
-        </section>
+          {/* <ToastContainer /> */}
+        </div>
       </body>
     </html>
   );

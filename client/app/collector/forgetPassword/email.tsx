@@ -13,7 +13,7 @@ const EmailPage: React.FC<ChildComponentProps> = ({
   changeParentState,
   changeEmail,
 }) => {
-  const [email, setEmail] = React.useState<string>("");
+  const [email, setEmail] = useState<string>("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);

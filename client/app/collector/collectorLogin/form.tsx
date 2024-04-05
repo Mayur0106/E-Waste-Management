@@ -21,10 +21,14 @@ const Form = () => {
       .then((res) => {
         console.log(res);
         console.log("success");
+        const token = res.data.accessToken;
+        const collector = res.data.data;
+        localStorage.setItem("token", token);
+        localStorage.setItem("collector", JSON.stringify(collector));
         toast.success("Login Successful", {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
-        router.push("/dashboard");
+        router.push("/collector");
       })
       .catch((err) => {
         console.log(err);
@@ -86,7 +90,7 @@ const Form = () => {
           </label>
           <div className="text-sm">
             <a
-              href="/forgetPassword?Role=Collector"
+              href="/collector/forgetPassword?Role=Collector"
               className="font-semibold text-indigo-600 hover:text-indigo-500"
             >
               Forgot password?
@@ -116,7 +120,7 @@ const Form = () => {
       <p className="mt-10 text-center text-sm text-gray-500">
         Not a member?{" "}
         <a
-          href="/collectorSignUp"
+          href="/collector/collectorSignUp"
           className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
         >
           Sign up now

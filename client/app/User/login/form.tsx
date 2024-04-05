@@ -21,25 +21,9 @@ const Form = () => {
       .then((res) => {
         const token = res.data.data.token;
         localStorage.setItem("token", token);
-        axios
-          .get(
-            `${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}/api/auth/getProfile`,
-            {
-              headers: {
-                "x-access-token": token,
-              },
-            }
-          )
-          .then((res) => {
-            const user = res.data.data;
-            console.log(user);
-
-            localStorage.setItem("user", JSON.stringify(res.data.data));
-            router.push("/");
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        const user = res.data.data.user;
+        localStorage.setItem("user", JSON.stringify(res.data.data));
+        router.push("/User");
         console.log("login success");
         toast.success("Login Successful", {
           position: "bottom-right",
@@ -105,7 +89,7 @@ const Form = () => {
           </label>
           <div className="text-sm">
             <a
-              href="/forgetPassword?Role=User"
+              href="/User/forgetPassword?Role=User"
               className="font-semibold text-indigo-600 hover:text-indigo-500"
             >
               Forgot password?
@@ -135,7 +119,7 @@ const Form = () => {
       <p className="mt-10 text-center text-sm text-gray-500">
         Not a member?{" "}
         <a
-          href="/userSignUp"
+          href="/User/userSignUp"
           className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
         >
           Sign up now

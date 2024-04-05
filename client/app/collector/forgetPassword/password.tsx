@@ -24,24 +24,27 @@ const PasswordPage: React.FC<ChildComponentProps> = ({
   const handleConfirmChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setConfirmPassword(e.target.value);
   };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     if (password !== confirmPassword) {
       toast.error("Password and confirm password should be same", {
         position: "bottom-right",
       });
       return;
     }
+
     console.log(password, confirmPassword);
     var pushUrl = "" as string;
 
     var url;
     if (role === "User") {
       url = `${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}/api/auth/updatePassword`;
-      pushUrl = "/login";
+      pushUrl = "/User/login";
     } else {
       url = `${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}/api/collectorAuth/updatePassword`;
-      pushUrl = "/collectorLogin";
+      pushUrl = "/collector/collectorLogin";
     }
 
     axios
@@ -64,6 +67,7 @@ const PasswordPage: React.FC<ChildComponentProps> = ({
         });
       });
   };
+
   return (
     <div className="flex flex-col justify-center items-center m-8">
       <h1>Enter your password here</h1>

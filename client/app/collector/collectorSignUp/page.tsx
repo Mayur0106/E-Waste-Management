@@ -1,4 +1,8 @@
+"use client";
+
 import Form from "./form";
+import { useState } from "react";
+import Otp from "./otp";
 // centerName: {
 //             type: Sequelize.STRING
 //         },
@@ -38,6 +42,8 @@ import Form from "./form";
 //         },
 
 export default function collectorSignUp() {
+  const [parent, changeParentState] = useState<string>("form"); // ["form", "otp"]
+  const [email, setEmail] = useState<string>("");
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-6 bg-gray-50 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
@@ -51,7 +57,12 @@ export default function collectorSignUp() {
           Sign up for E-waste collector account
         </h2>
       </div>
-      <Form />
+      {parent === "otp" && (
+        <Otp changeParentState={changeParentState} email={email} />
+      )}
+      {parent === "form" && (
+        <Form changeParentState={changeParentState} setEmail={setEmail} />
+      )}
     </div>
   );
 }

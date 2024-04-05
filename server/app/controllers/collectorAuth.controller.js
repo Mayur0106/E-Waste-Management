@@ -272,14 +272,15 @@ exports.rejectOrder = async (req, res) => {
                 });
             }
 
-            if (order.completed === true) {
-                return res.status(400).json({
-                    success: false,
-                    message: "Order already completed."
-                });
-            }
+            // if (order.completed === true) {
+            //     return res.status(400).json({
+            //         success: false,
+            //         message: "Order already completed."
+            //     });
+            // }
 
             order.accepted = false;
+            order.completed = false;
             order.rejected = true;
             order.save();
 
