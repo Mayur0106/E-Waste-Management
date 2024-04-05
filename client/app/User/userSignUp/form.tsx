@@ -25,8 +25,8 @@ export default function Form() {
   });
 
   const handleSubmits = async (e: React.FormEvent<HTMLFormElement>) => {
+    
     e.preventDefault();
-
     const address = encodeURIComponent(
       `${data.city}, ${data.district}, ${data.subDistrict}, ${data.state}`
     );
@@ -87,7 +87,7 @@ export default function Form() {
           toast.success("Registration Success", {
             position: "bottom-right",
           });
-          router.push("/login");
+          router.push("/User/login");
         })
         .catch((err) => {
           console.log(err);

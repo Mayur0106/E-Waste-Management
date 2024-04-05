@@ -15,7 +15,10 @@
     overflow: hidden;
     cursor: pointer;
   }
-  
+
+  .circularBorder:hover{
+    background-color: #84d4a7;
+  }
   .circularImage {
    border-radius: 50%; /* Makes the image circular */
   }

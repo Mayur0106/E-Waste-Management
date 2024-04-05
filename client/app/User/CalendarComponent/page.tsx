@@ -59,9 +59,9 @@ const CalendarComponent: React.FC = () => {
   };
 
   return (
-    <div className={`${styles.mainContainer}`}>
+    <div className={styles.mainContainer}>
       
-      <div className={`${styles.navigationbuttons}`}>
+      <div className={`${styles.navigationbuttons} `}>
       <div className="flex justify-between items-center p-4">
         <div className={styles.navbutton}>
           <button onClick={handlePrevMonth}>&lt; Prev</button>
