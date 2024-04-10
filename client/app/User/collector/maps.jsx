@@ -12,7 +12,7 @@ const OpenStreetMap = (props) => {
   const router = useRouter();
   const [map, setMap] = useState();
   const [center, setCenter] = useState({ lat: 18.590349, lng: 74.00468 });
-  const ZOOM_LEVEL = 9;
+  const ZOOM_LEVEL = 5;
   const mapRef = useRef();
 
   const collectorData = props.collectorData;
@@ -37,7 +37,7 @@ const OpenStreetMap = (props) => {
         <div className="row h-full w-full">
           <div className="col h-full w-full">
             <div className="container h-full w-full">
-              <MapContainer whenReady={setMap} center={[center.lat, center.lng]} zoom={13} scrollWheelZoom={true} className="h-full w-full"  >
+              <MapContainer whenReady={setMap} center={[center.lat, center.lng]} zoom={ZOOM_LEVEL} scrollWheelZoom={true} className="h-full w-full"  >
                 <TileLayer
                   attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
