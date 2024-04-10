@@ -25,6 +25,7 @@ const navigation = [
   { name: "Projects", href: "#" },
   { name: "Calendar", href: "/User/CalendarComponent" },
   { name: "Reports", href: "/User/report" },
+  { name: "ChatBot", href: "/User/ChatBot"},
 ];
 
 const userNavigation = [

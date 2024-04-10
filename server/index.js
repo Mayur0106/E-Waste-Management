@@ -4,6 +4,8 @@ const cors = require('cors');
 require('dotenv').config();
 const path = require('path');
 const Sequelize = require('sequelize');
+const http = require('http');
+const socketIo = require('socket.io');
 
 const app = express();
 const port = 3000;
@@ -34,6 +36,11 @@ db.sequelize.sync({ alter: true }).then(() => {
 app.get('/', (req, res) => {
     res.send('welcome to e-waste management server! ');
 });
+
+
+
+
+
 
 require('./app/routes/auth.routes')(app);
 require('./app/routes/collectorAuth.routes')(app);
