@@ -343,7 +343,11 @@ exports.completeOrder = async (req, res) => {
 
 exports.getOrders = async (req, res) => {
     try {
-        const orders = await Order.findAll({ where: { collectorId: req.userId } });
+        const orders = await Order.findAll({
+            where: { collectorId: req.userId },
+            include: [{ model: db.user, as: "user" }],
+            order: [['createdAt', 'DESC']]
+        });
 
         if (!orders.length) {
             return res.status(404).json({

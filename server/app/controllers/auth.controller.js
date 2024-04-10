@@ -1,6 +1,7 @@
 const validator = require('../config/validator')
 const db = require('../models');
 const User = db.user;
+const Order = db.order;
 const bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 
@@ -80,7 +81,7 @@ exports.signin = (req, res) => {
 
 
                 var token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-                    expiresIn: 86400 // 24 hours
+                    expiresIn: 60 * 60 * 24 * 30 // 30 days
                 });
 
                 res.status(200).send({ success: true, message: "Login successfully.!", data: { token: token, user: user } })
@@ -189,5 +190,31 @@ exports.createOrder = async (req, res) => {
     } catch (error) {
         console.log("error in auth.controller.js :: createOrder() => error");
         return res.status(500).send({ success: false, message: error.message || "something went wrong" })
+    }
+}
+
+exports.getOrders = async (req, res) => {
+    try {
+        const orders = await Order.findAll({
+            where: { userId: req.userId },
+            include: [{ model: db.collector, as: "collector" }],
+            order: [['createdAt', 'DESC']]
+        });
+
+        if (!orders.length) {
+            return res.status(404).json({
+                success: false,
+                message: "Orders not found."
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Orders found successfully!",
+            data: orders
+        });
+    } catch (error) {
+        console.log("error in auth.controller.js :: getOrders() =>", error);
+        res.status(500).send({ success: false, message: error.message || "something went wrong" });
     }
 }

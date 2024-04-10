@@ -26,7 +26,9 @@ app.use('/Public', express.static(path.join(__dirname, 'Public')));
 // database
 const db = require('./app/models');
 
-db.sequelize.sync({ alter: true }).then(() => {
+db.sequelize.sync({
+    // alter: true
+}).then(() => {
     console.log('altered Database with { alter: true }');
 });
 

@@ -16,6 +16,7 @@ interface ProfilePageProps {
 
 const ProfilePage: React.FC<ProfilePageProps> = () => {
   const user = JSON.parse(localStorage.getItem("user") || "");
+  console.log(user);
   return (
     <div className="flex flex-col h-screen w-screen items-center p-6 bg-gray-400 text-white shadow-md rounded-lg">
       <div className="mx-auto max-w-lg text-center">

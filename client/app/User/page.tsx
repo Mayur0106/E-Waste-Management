@@ -9,11 +9,6 @@ import Footer from "./Footer/page";
 export default function Home() {
   return (
     <div>
-      <Link href="/User/login">
-        <button className={layout.signin} type="button">
-          Sign In
-        </button>
-      </Link>
       <div>
         <HomeMiddle />
       </div>
