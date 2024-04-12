@@ -28,8 +28,8 @@ const ChatBotPage = () => {
       // .post(
       //   `${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}/api/collectorAuth/findCollector`,
 
-     //    const res = await axios.post('https://chatbot-nc19.onrender.com/dispose', { message });
-   const res = await axios.post('http://localhost:5000/dispose', { message });
+         const res = await axios.post('https://chatbot-nc19.onrender.com/dispose', { message });
+   //    const res = await axios.post('http://localhost:5000/dispose', { message });
        //const res = await axios.post( `${process.env.ChatBot}/dispose`, { message });
 
       console.log('Backend Response:', res.data);
