@@ -23,7 +23,7 @@ const Form = () => {
         console.log("success");
         const token = res.data.accessToken;
         const collector = res.data.data;
-        localStorage.setItem("token", token);
+        localStorage.setItem("collectorToken", token);
         localStorage.setItem("collector", JSON.stringify(collector));
         toast.success("Login Successful", {
           position: toast.POSITION.BOTTOM_RIGHT,

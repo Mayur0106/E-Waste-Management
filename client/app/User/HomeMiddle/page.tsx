@@ -5,11 +5,49 @@ import homemiddle from "../styles/HomeMiddle.module.css";
 import mpage from "../styles/MainPage.module.css";
 import Image from "next/image";
 import Link from "next/link";
+import { Fragment, useState, useEffect, use } from "react";
+
 
 export default function HomeMiddle() {
+  const [login, setLogin] = useState(false);
+  const userFromLocalStorage = localStorage.getItem("user");
+  const tokenFromLocalStorage = localStorage.getItem("token");
+
+  useEffect(() => {
+    if (!tokenFromLocalStorage) {
+      // router.push("/User/login");
+      setLogin(false);
+    } else {
+      setLogin(true);
+    }
+
+    // Respond to the "storage" event
+    function storageEventHandler(event: StorageEvent) {
+      if (event.key === "token") {
+        const token = JSON.parse(event.newValue as string);
+        setLogin(true);
+      }
+    }
+    window.addEventListener("storage", storageEventHandler);
+
+    // Clean up: Remove the event handler when the component unmounts
+    return () => {
+      window.removeEventListener("storage", storageEventHandler);
+    };
+  }, []);
+
   return (
     <>
       <div>
+        {!login && (
+          <div>
+            <Link href="/User/login">
+              <button className={homemiddle.signin} type="button">
+                Sign In
+              </button>
+            </Link>
+          </div>
+        )}
         <div className={homemiddle.logo}>
           <Image
             priority={true}
@@ -20,16 +58,19 @@ export default function HomeMiddle() {
             height={300}
           />
         </div>
+
+
+
         <div className={homemiddle.fstyle}>
           <h1 className="animate__animated animate__backInDown">
             {" "}
             E-waste Recycling
           </h1>
         </div>
+
         <div className={mpage.buttonbody}>
-          <Link href="/User/userSignUp">
+          <Link href={!login ? "/User/userSignUp" : "/User/Collector"}>
             <button className={mpage.cssbutton}>
-              {" "}
               Get started
               <div className={mpage.icon}>
                 <svg
@@ -48,6 +89,8 @@ export default function HomeMiddle() {
             </button>
           </Link>
         </div>
+
+
       </div>
     </>
   );

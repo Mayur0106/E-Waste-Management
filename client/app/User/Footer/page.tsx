@@ -11,7 +11,7 @@ export default function Footer() {
           <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
             <div className="md:flex md:justify-between">
               <div className="mb-6 md:mb-0">
-                <a href="https://flowbite.com/" className="flex items-center">
+                <a href="https://www.sciencedirect.com/science/article/pii/S2214999614003208" className="flex items-center">
                   <img
                     loading="lazy"
                     src="/logo1.png"
@@ -62,7 +62,7 @@ export default function Footer() {
                   <ul className="text-gray-500 dark:text-gray-400 font-medium">
                     <li className="mb-4">
                       <a
-                        href="https://github.com/themesberg/flowbite"
+                        href="https://github.com/Mayur0106/E-Waste-Management.git"
                         className="hover:underline "
                       >
                         Github
@@ -92,12 +92,12 @@ export default function Footer() {
                   </h2>
                   <ul className="text-gray-500 dark:text-gray-400 font-medium">
                     <li className="mb-4">
-                      <a href="#" className="hover:underline">
+                      <a href="User/PrivacyPolicy" className="hover:underline">
                         Privacy Policy
                       </a>
                     </li>
                     <li>
-                      <a href="#" className="hover:underline">
+                      <a href="User/TermsConditions" className="hover:underline">
                         Terms &amp; Conditions
                       </a>
                     </li>

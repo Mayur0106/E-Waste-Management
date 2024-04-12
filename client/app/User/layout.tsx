@@ -11,7 +11,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="nested-layout">
       {/* This is where the header component is placed */}
-      <Header/>
+      <Header />
       <main>{children} </main>
     </div>
   );

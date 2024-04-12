@@ -65,7 +65,7 @@ export default function OtpPage({
         toast.success("OTP verified successfully", {
           position: "bottom-right",
         });
-        router.push("/collector");
+        router.push("/collector/collectorLogin");
       })
       .catch((err) => {
         console.error(err);

@@ -17,8 +17,8 @@ interface Order {
   rejected: boolean;
   updatedAt: string;
   userId: number;
-  user: {
-    userName: string;
+  collector: {
+    centerName: string;
     email: string;
     phone: string;
   };
@@ -32,21 +32,21 @@ exports.default = () => {
   useEffect(() => {
     console.log("Hello from the other side");
     Axios.post(
-      `${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}/api/collectorAuth/getOrders`,
+      `${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}/api/auth/getOrders`,
       {},
       {
         headers: {
-          "x-access-token": localStorage.getItem("collectorToken"),
+          "x-access-token": localStorage.getItem("token"),
         },
       }
     )
       .then((res) => {
         setOrders(res.data.data);
-        setLoading(false);
         localStorage.setItem(
-          "collectorOrderCount",
+          `userOrderCount`,
           JSON.stringify(res.data.data.length)
         );
+        setLoading(false);
         console.log(res.data.data);
         toast.success("Orders Fetched", {
           position: toast.POSITION.BOTTOM_RIGHT,
@@ -59,90 +59,6 @@ exports.default = () => {
         });
       });
   }, [fetching]);
-
-  const handleAccept = (id: number) => {
-    console.log(`accepting order ${id}`);
-    Axios.post(
-      `${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}/api/collectorAuth/acceptOrder`,
-      {
-        orderId: id,
-      },
-      {
-        headers: {
-          "x-access-token": localStorage.getItem("collectorToken"),
-        },
-      }
-    )
-      .then((res) => {
-        console.log(res.data);
-        toast.success("Order Accepted", {
-          position: toast.POSITION.BOTTOM_RIGHT,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error("Failed to accept order", {
-          position: "bottom-right",
-        });
-      });
-    setFetching(!fetching);
-  };
-
-  const handleComplete = (id: number) => {
-    console.log(`completing order ${id}`);
-    Axios.post(
-      `${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}/api/collectorAuth/completeOrder`,
-      {
-        orderId: id,
-      },
-      {
-        headers: {
-          "x-access-token": localStorage.getItem("collectorToken"),
-        },
-      }
-    )
-      .then((res) => {
-        console.log(res.data);
-        toast.success("Order Completed", {
-          position: "bottom-right",
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error("Failed to complete order", {
-          position: "bottom-right",
-        });
-      });
-    setFetching(!fetching);
-  };
-
-  const handleReject = (id: number) => {
-    console.log(`rejecting order ${id}`);
-    Axios.post(
-      `${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}/api/collectorAuth/rejectOrder`,
-      {
-        orderId: id,
-      },
-      {
-        headers: {
-          "x-access-token": localStorage.getItem("collectorToken"),
-        },
-      }
-    )
-      .then((res) => {
-        console.log(res.data);
-        toast.success("Order Rejected", {
-          position: "bottom-right",
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error("Failed to reject order", {
-          position: "bottom-right",
-        });
-      });
-    setFetching(!fetching);
-  };
 
   return loading ? (
     <div className=" bg-blue-100 h-screen w-screen p-8">
@@ -172,8 +88,8 @@ exports.default = () => {
                 <th className="border-black border-2 p-2 m-1">accept</th>
                 <th className="border-black border-2 p-2 m-1">complete</th>
                 <th className="border-black border-2 p-2 m-1">reject</th>
-                <th className="border-black border-2 p-2 m-1">User</th>
-                <th className="border-black border-2 p-2 m-1">email</th>
+                <th className="border-black border-2 p-2 m-1">Collector</th>
+                <th className="border-black border-2 p-2 m-1">Email</th>
                 <th className="border-black border-2 p-2 m-1">Phone</th>
               </tr>
             </thead>
@@ -193,26 +109,26 @@ exports.default = () => {
                     <button
                       className={
                         item.accepted
-                          ? "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded cursor-not-allowed"
-                          : "bg-transparent-500 hover:bg-blue-700 hover:text-white text-blue-700 font-bold py-2 px-4 rounded"
+                          ? "bg-green-500 text-white font-bold py-2 px-4 rounded cursor-not-allowed"
+                          : "bg-transparent-500 text-blue-700 font-bold py-2 px-4 rounded"
                       }
-                      onClick={() => handleAccept(item.id)}
-                      disabled={item.accepted}
+                      // onClick={() => handleAccept(item.id)}
+                      disabled={true}
                     >
-                      Accept
+                      {item.accepted ? "Accepted" : "Accept"}
                     </button>
                   </td>
                   <td className="border-black border-2 p-2 m-1">
                     <button
                       className={
                         item.completed
-                          ? "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded cursor-not-allowed"
-                          : "bg-transparent-500 hover:bg-blue-700 hover:text-white text-blue-700 font-bold py-2 px-4 rounded"
+                          ? "bg-green-500  text-white font-bold py-2 px-4 rounded cursor-not-allowed"
+                          : "bg-transparent-500 text-blue-700 font-bold py-2 px-4 rounded"
                       }
-                      onClick={() => handleComplete(item.id)}
-                      disabled={item.completed}
+                      // onClick={() => handleComplete(item.id)}
+                      disabled={true}
                     >
-                      Complete
+                      {item.completed ? "Completed" : "Complete"}
                     </button>
                   </td>
 
@@ -220,23 +136,23 @@ exports.default = () => {
                     <button
                       className={
                         item.rejected
-                          ? "bg-red-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded cursor-not-allowed"
-                          : "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                          ? "bg-red-500 text-white font-bold py-2 px-4 rounded cursor-not-allowed"
+                          : "bg-transparent-500 text-blue-700 font-bold py-2 px-4 rounded"
                       }
-                      onClick={() => handleReject(item.id)}
-                      disabled={item.rejected}
+                      // onClick={() => handleReject(item.id)}
+                      disabled={true}
                     >
-                      Reject
+                      {item.rejected ? "Rejected" : "Reject"}
                     </button>
                   </td>
                   <td className="border-black border-2 p-2 m-1">
-                    {item.user.userName}
+                    {item.collector.centerName}
                   </td>
                   <td className="border-black border-2 p-2 m-1">
-                    {item.user.email}
+                    {item.collector.email}
                   </td>
                   <td className="border-black border-2 p-2 m-1">
-                    {item.user.phone}
+                    {item.collector.phone}
                   </td>
                 </tr>
               ))}

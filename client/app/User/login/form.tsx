@@ -22,7 +22,7 @@ const Form = () => {
         const token = res.data.data.token;
         localStorage.setItem("token", token);
         const user = res.data.data.user;
-        localStorage.setItem("user", JSON.stringify(res.data.data));
+        localStorage.setItem("user", JSON.stringify(user));
         router.push("/User");
         console.log("login success");
         toast.success("Login Successful", {

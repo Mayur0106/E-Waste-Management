@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import ChatBot from '../ChatBot/page';
 
 interface CartItem {
   product: string;
@@ -9,7 +11,21 @@ interface CartItem {
   quantity: number;
 }
 
+
 const OrderPage: React.FC = () => {
+
+  // const router = useRouter();
+
+  const [showChatBot, setShowChatBot] = useState(false);
+
+  const goToChatBot = () => {
+    setShowChatBot(!showChatBot);
+  };
+
+  const goToCollector = () => {
+    setShowChatBot(!showChatBot);
+  };
+
   const [cart, setCart] = useState<CartItem[]>([]);
   const [product, setProduct] = useState<string>("");
   const [quantity, setQuantity] = useState<number>(1);
@@ -93,17 +109,19 @@ const OrderPage: React.FC = () => {
   };
 
   return (
-    <div className="bg-blue-100 h-screen p-8">
-      <h1 className="font-bold text-3xl m-2 border-b-2 border-blue-800">
+    <div className="bg-blue-100 h-screen p-6">
+
+
+      <h1 className="font-bold text-3xl my-4 border-b-2 border-blue-800">
         Order
       </h1>
-      <div>
-        <h2 className="font-bold text-2xl m-1">Shopping Cart</h2>
-        <div className="border-2 border-blue-gray-500 p-1 m-2 rounded-2xl">
+      <div className="flex flex-col items-center">
+        <h2 className="font-bold text-2xl my-2">Shopping Cart</h2>
+        <div className="border-2 border-blue-gray-500 p-4 rounded-2xl w-full md:w-2/3 lg:w-1/2">
           {/* Input fields for product and quantity */}
           <select
             id="mySelect"
-            className="m-1 p-1 border-2 border-gray-400 rounded-md"
+            className="w-full md:w-2/3 p-2 border-2 border-gray-400 rounded-md mb-2"
             value={product}
             onChange={(e) => setProduct(e.target.value)}
           >
@@ -118,46 +136,43 @@ const OrderPage: React.FC = () => {
           </select>
           <input
             type="text"
-            className="m-1 p-1 border-2 border-gray-400 rounded-md"
+            className="w-full md:w-2/3 p-2 border-2 border-gray-400 rounded-md mb-2"
             placeholder="Enter product description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
           <input
             type="number"
-            className="m-1 p-1 border-2 border-gray-400 rounded-md"
+            className="w-full md:w-2/3 p-2 border-2 border-gray-400 rounded-md mb-2"
             placeholder="Enter quantity"
             value={quantity}
             onChange={(e) => setQuantity(parseInt(e.target.value))}
           />
           <button
-            className="bg-red-200 m-2 rounded-md border-red-600 border-1 p-1 hover:bg-red-300"
+            className="w-full md:w-2/3 bg-red-200 rounded-md border-red-600 border-1 p-2 hover:bg-red-300"
             onClick={() => addToCart(product, quantity)}
           >
             Add to Cart
           </button>
         </div>
-        <h3 className="font-bold text-2xl m-1">Cart Contents:</h3>
-        <div className="border-2 border-blue-gray-500 p-1 m-2 rounded-2xl">
-          <table className="rounded-xl m-2">
-            <thead className="border-black border-2 p-2 m-1">
-              <tr className="border-black border-2 p-2 m-1">
-                <th className="border-black border-2 p-2 m-1">Product</th>
-                <th className="border-black border-2 p-2 m-1">Quantity</th>
+        <h3 className="font-bold text-2xl my-2">Cart Contents:</h3>
+        <div className="border-2 border-blue-gray-500 p-4 rounded-2xl w-full md:w-2/3 lg:w-1/2">
+          <table className="w-full rounded-xl">
+            <thead className="border-black border-2 p-2">
+              <tr>
+                <th className="border-black border-2 p-2">Product</th>
+                <th className="border-black border-2 p-2">Quantity</th>
+                <th className="border-black border-2 p-2">Actions</th>
               </tr>
             </thead>
-            <tbody className="border-black border-2 p-2 m-1">
+            <tbody className="border-black border-2 p-2">
               {cart.map((item) => (
                 <tr key={item.product}>
-                  <td className="border-black border-2 p-2 m-1">
-                    {item.product}
-                  </td>
-                  <td className="border-black border-2 p-2 m-1">
-                    {item.quantity}
-                  </td>
-                  <td className="border-black border-2 p-2 m-1">
+                  <td className="border-black border-2 p-2">{item.product}</td>
+                  <td className="border-black border-2 p-2">{item.quantity}</td>
+                  <td className="border-black border-2 p-2">
                     <button
-                      className="p-1 m-1 bg-deep-orange-500 border-red-700 border-2 rounded-md hover:bg-red-3"
+                      className="p-2 bg-deep-orange-500 border-red-700 border-2 rounded-md hover:bg-red-300"
                       onClick={() => removeFromCart(item.product)}
                     >
                       Remove
@@ -170,13 +185,26 @@ const OrderPage: React.FC = () => {
         </div>
         <button
           onClick={handleSubmit}
-          className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800"
+          className="mt-4 mb-2 px-4 py-2 bg-gradient-to-br from-green-400 to-blue-600 text-white rounded-lg hover:from-green-500 hover:to-blue-700 focus:ring-4 focus:outline-none focus:ring-green-200"
         >
-          <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-            Submit
-          </span>
+          Submit
         </button>
+        {showChatBot && <ChatBot onClose={goToChatBot} />}
+        <div className="fixed bottom-4 right-4">
+          <img
+            loading="lazy"
+            className="h-10 w-10 cursor-pointer transition duration-300 hover:bg-gray-200 hover:shadow-xl transform hover:scale-110"
+            src="/Chatbot.png"
+            alt="ChatBot Icon"
+            onClick={goToChatBot}
+          />
+        </div>
+
+
+
+
       </div>
+
     </div>
   );
 };

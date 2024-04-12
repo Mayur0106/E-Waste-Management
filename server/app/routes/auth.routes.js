@@ -59,4 +59,11 @@ module.exports = function (app) {
         [authJWT.verifyToken],
         controller.createOrder
     );
+
+    app.post(
+        API_CONTEXT + "/auth/getOrders",
+        [authJWT.verifyToken],
+        controller.getOrders
+    );
+    
 }

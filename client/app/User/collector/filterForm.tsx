@@ -70,64 +70,63 @@ export default function filter(props: any) {
 
   return (
     <>
-      <div className="h-auto rounded-xl bg-white  p-4 m-4 shadow-2xl w-96">
-        <form onSubmit={handleSubmit}>
-          <label className="flex flex-col mt-2">
+      <div className="h-auto rounded-xl bg-white p-4 m-4 shadow-2xl w-96">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <label className="flex flex-col">
             <span className="mb-1">State Name:</span>
             <input
               type="text"
               name="state"
               value={data.state}
               onChange={handleChange}
-              className="mt-1 p-1 border rounded"
+              className="p-1 border rounded"
             />
           </label>
-          <br />
 
-          <label className="flex flex-col mt-2">
+          <label className="flex flex-col">
             <span className="mb-1">District:</span>
             <input
               type="text"
               name="district"
               value={data.district}
               onChange={handleChange}
-              className="mt-1 p-1 border rounded"
+              className="p-1 border rounded"
             />
           </label>
-          <br />
 
-          <label className="flex flex-col mt-2">
+          <label className="flex flex-col">
             <span className="mb-1">Subdistrict:</span>
             <input
               type="text"
               name="subDistrict"
               value={data.subDistrict}
               onChange={handleChange}
-              className="mt-1 p-1 border rounded"
+              className="p-1 border rounded"
             />
           </label>
-          <br />
 
-          <label className="flex flex-col mt-2">
+          <label className="flex flex-col">
             <span className="mb-1">City Name:</span>
             <input
               type="text"
               name="city"
               value={data.city}
               onChange={handleChange}
-              className="mt-1 p-1 border rounded"
+              className="p-1 border rounded"
             />
           </label>
-          <br />
 
           <button
             type="submit"
-            className="mt-2 p-2 bg-blue-500 text-white rounded"
+            className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300"
           >
             Filter
           </button>
         </form>
       </div>
+
+
+
       {collectorData.length ? (
         <div className="p-8">
           {collectorData.map((item: any) => {
@@ -188,15 +187,15 @@ export default function filter(props: any) {
                       {item.timeFrom} to {item.timeTo}
                     </p>
                   </div>
-                  <div className="flex items-center">
+                  {/* <div className="flex items-center">
                     <div className="text-sm">
                       <p className="text-gray-900 leading-none">
                         {item.contactPerson}
                       </p>
-                      <p className="text-gray-600">{item.phone} </p>
-                      <p className="text-gray-600">{item.email} </p>
+                        <p className="text-gray-600">{item.phone} </p>
+                      <p className="text-gray-600">{item.email} </p> 
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
               // <div
