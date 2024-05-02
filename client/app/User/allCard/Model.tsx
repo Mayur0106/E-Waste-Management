@@ -7,16 +7,15 @@ interface ModalProps {
   title: string;
   description: string;
   imageUrl: string;
-  userName: string;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, description, userName, imageUrl }) => {
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, description, imageUrl }) => {
   if (!isOpen) return null;
 
   return (
     <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-gray-800 bg-opacity-50">
       <div className="bg-white rounded-lg p-8 flex flex-col items-center max-w-3xl max-h-screen overflow-y-auto">
-
+        
         <div className="mb-4">
           <Image
             loading="lazy"
@@ -30,17 +29,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, description, user
         <div className="mb-4">
           <h2 className="text-xl font-bold">{title}</h2>
         </div>
-        
-        <div className="text-right" style={{ marginLeft: '450px' }}>
-          <h2 className="text-sm italic">- {userName}</h2>
-        </div>
-
-
-
-        <div className="mb-4">
-          <h2 className="text-xl font-bold">{ }</h2>
-        </div>
-
         <div className="bg-blue-100 p-4 rounded-lg w-full mb-4 max-w-full h-48 overflow-y-auto scrollbar">
           <p className="text-gray-800 font-medium">{description}</p>
         </div>

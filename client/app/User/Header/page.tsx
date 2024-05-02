@@ -82,6 +82,7 @@ export default function Header() {
 
   const userNavigation = [
     { name: "Your Profile", href: "#", onclick: handleClick1 },
+    { name: "Create Card", href: "/User/CardForm", onclick: handleClick1 },
     { name: "History", href: "/User/orders", onclick: handleClick2 },
     { name: "Sign out", href: "#", onclick: handleClick3 },
   ];

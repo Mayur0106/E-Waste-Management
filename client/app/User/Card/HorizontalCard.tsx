@@ -2,17 +2,21 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Modal from "./Model";
 import lm from "../styles/card.module.css";
+import Link from "next/link";
 
 interface CardProps {
   imageUrl: string;
   title: string;
   description: string;
+  userName: string;
 }
 
-const HorizontalCard: React.FC<CardProps> = ({
+const HorizontalCard: React.FC<CardProps & { initial?: boolean }> = ({
   imageUrl,
   title,
   description,
+  userName,
+  initial = true,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -49,14 +53,16 @@ const HorizontalCard: React.FC<CardProps> = ({
               {title}
             </h5>
           </a>
-          <button
-            onClick={openModal}
-            className={`${"inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"}  ${
-              lm.buttoncolor
-            } absolute bottom-4 right-4 border border-white`}
-          >
-            Show details
-          </button>
+          {initial && (
+            <button
+              onClick={openModal}
+              className={`${"inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"}  ${
+                lm.buttoncolor
+              } absolute bottom-4 right-4 border border-white`}
+            >
+              Show details
+            </button>
+          )}
         </div>
       </div>
       {isModalOpen && (
@@ -66,6 +72,7 @@ const HorizontalCard: React.FC<CardProps> = ({
             onClose={closeModal}
             title={title}
             description={description}
+            userName={userName}
             imageUrl={imageUrl}
           />
         </div>
