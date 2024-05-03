@@ -24,13 +24,7 @@ const ChatBotPage = () => {
       const userMessage: Message = { text: message, sender: 'user' };
       setMessages(prevMessages => [...prevMessages, userMessage]);
 
-
-      // .post(
-      //   `${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}/api/collectorAuth/findCollector`,
-
-        // const res = await axios.post('https://chatbot-nc19.onrender.com/dispose', { message });
-       const res = await axios.post('http://localhost:5000/dispose', { message });
-       //const res = await axios.post( `${process.env.ChatBot}/dispose`, { message });
+       const res = await axios.post( `${process.env.NEXT_PUBLIC_REACT_APP_CHATBOT_URL}/dispose`, { message });
 
       console.log('Backend Response:', res.data);
 
