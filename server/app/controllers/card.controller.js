@@ -10,8 +10,8 @@ exports.createcard = async (req, res) => {
     try {
         const validationRules = {
             description: 'required',
-            title: 'required',
-            userName: 'required',
+            title: 'required|min:5|max:15',
+            userName: 'required|max:6',
             email: 'required|email',
         };
         
@@ -71,6 +71,57 @@ exports.getCards = async (req, res) => {
         });
     }
 }
+
+exports.updateCard = async (req, res) => {
+
+
+    try {
+        const { id } = req.params; // Assuming card id is passed in the URL params
+        const { description } = req.body;
+
+        console.log("id", id);
+        console.log("description", description);
+        if (!id) {
+            return res.status(400).json({
+                success: false,
+                message: "Card ID is required."
+            });
+        }
+
+        if (!description) {
+            return res.status(400).json({
+                success: false,
+                message: "Description is required."
+            });
+        }
+
+        const card = await Card.findByPk(id);
+
+        if (!card) {
+            return res.status(404).json({
+                success: false,
+                message: "Card not found."
+            });
+        }
+
+        card.description = description; // Update description
+
+        await card.save();
+
+        return res.status(200).json({
+            success: true,
+            message: "Card description updated successfully!",
+            data: card
+        });
+    } catch (error) {
+        console.error("Error updating card description:", error);
+        res.status(500).json({
+            success: false,
+            message: "Something went wrong while updating card description."
+        });
+    }
+}
+
 
 
 

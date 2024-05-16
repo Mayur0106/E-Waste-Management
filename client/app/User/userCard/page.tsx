@@ -5,6 +5,12 @@ import HorizontalCard from "./HorizontalCard";
 import Link from "next/link";
 import lm from "../styles/card.module.css";
 
+
+interface User {
+  email: string;
+ 
+}
+
 interface Card {
   id: string;
   photo: string;
@@ -17,6 +23,8 @@ interface Card {
 const CardContainer: React.FC = () => {
   const [cards, setCards] = useState<Card[]>([]);
   const [showEmptyCard, setShowEmptyCard] = useState(false);
+
+  const users = JSON.parse(localStorage.getItem("user") || "");
 
   useEffect(() => {
     fetch( `${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}/api/auth/getCard`)
@@ -42,16 +50,19 @@ const CardContainer: React.FC = () => {
   return (
     <div className="flex flex-wrap h-auto w-auto">
       {cards.map(card => (
+    users.email === card.email ? (
         <HorizontalCard
-          key={card.id}
-          id={card.id}
-          imageUrl={`${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}/${card.photo}`}
-          title={card.title || 'No title'}
-          userName={card.userName || 'No userName'}
-          email={card.email || 'No email'}
-          description={card.description || 'No description'}
+            key={card.id}
+            id={card.id}
+            imageUrl={`${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}/${card.photo}`}
+            title={card.title || 'No title'}
+            userName={card.userName || 'No userName'}
+            email={card.email || 'No email'}
+            description={card.description || 'No description'}
         />
-      ))}
+    ) : null
+))}
+
 
       {showEmptyCard && (
         <div className={`${"flex bg-white border border-gray-100 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-4 m-2 relative h-36"} ${lm.lmargin}`}>

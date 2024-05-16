@@ -34,41 +34,40 @@ export default function Home() {
         </div>
 
         <div className={styles.options}>
-          <Link href="/User" className={styles.option}>
-            <div onClick={handleClick}>
-              <Image
-                priority={true}
-                className="h-auto w-auto"
-                src="/single_user.png"
-                alt="Description of the image"
-                width={35}
-                height={300}
-              />
-              <div className={styles.optionContent}>
-                <h2>User</h2>
-                <p>Find out how you can dispose of your e-waste responsibly.</p>
-              </div>
-            </div>
-          </Link>
-          <Link href="/collector" className={styles.option}>
-            <div onClick={handleClick}>
-              <Image
-                priority={true}
-                className="h-auto w-auto"
-                src="/multiple_user.png"
-                alt="Description of the image"
-                width={64}
-                height={37}
-              />
-              <div className={`${styles.optionContent}`}>
-                <h2>Collector</h2>
-                <p>
-                  Learn how you can contribute by collecting e-waste from users.
-                </p>
-              </div>
-            </div>
-          </Link>
+      <Link href="/User" className={styles.option} passHref>
+        <div>
+          <Image
+            priority
+            src="/single_user.png"
+            alt="User"
+            width={35}
+            height={300}
+          />
+          <div className={styles.optionContent}>
+            <h2>User</h2>
+            <p>Find out how you can dispose of your e-waste responsibly.</p>
+          </div>
         </div>
+      </Link>
+      <Link href="/collector" className={styles.option} passHref>
+        <div>
+          <Image
+            priority
+            src="/multiple_user.png"
+            alt="Collector"
+            width={64}
+            height={37}
+          />
+          <div className={styles.optionContent}>
+            <h2>Collector</h2>
+            <p>Learn how you can contribute by collecting e-waste from users.</p>
+          </div>
+        </div>
+      </Link>
+    </div>
+
+
+
       </div>
     </>
   );

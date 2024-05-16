@@ -6,6 +6,9 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 
+// Import your default image here
+import defaultImage from "./edit.png";
+import { on } from "events";
 
 export default function CardForm() {
   const user = JSON.parse(localStorage.getItem("user") || "");
@@ -18,6 +21,7 @@ export default function CardForm() {
     title: "",
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const handleSubmits = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -46,10 +50,21 @@ export default function CardForm() {
       toast.success("Card created successfully", {
         position: "bottom-right",
       });
+
+      // Reset the input fields after successful submission
+      setDescription("");
+      setData({
+        ...data,
+        title: "",
+        userName: "",
+      });
+      setFile(null);
+      setImagePreview(null);
+      
       setIsLoading(false);
     } catch (error) {
       console.error("Error creating card:", error);
-      toast.error("Failed to create card", {
+      toast.error("Validation failed ", {
         position: "bottom-right",
       });
       setIsLoading(false);
@@ -59,6 +74,15 @@ export default function CardForm() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files![0];
     setFile(file);
+
+    // Read the file and set the image preview
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === "string") {
+        setImagePreview(reader.result);
+      }
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,18 +96,17 @@ export default function CardForm() {
     setDescription(e.target.value);
   };
 
+  const onBackClick = () => {
+    router.push("/User/ShowCard");
+  }
   return (
     <>
       <div className="bg-blue-100 ">
-        <span
-          className="text-2xl font-serif text-center font-bold"
-          style={{ marginLeft: "600px", paddingTop: "20px" }}
-        >
+        <span className="text-2xl font-serif  font-bold ml-72 mt-27 pt-20">
           Card Information
         </span>
 
         <div className="min-h-screen flex items-center justify-center">
-          <div className="items-center justify-center"></div>
           <div className="max-w-6xl border border-gray-300 rounded-md p-8">
             <form
               className="w-full space-y-6"
@@ -92,32 +115,44 @@ export default function CardForm() {
               onSubmit={handleSubmits}
             >
               <div className="flex flex-col space-y-4" style={{ width: "500px" }}>
-                <label className="flex items-center space-x-4">
-                  <input
-                    type="file"
-                    onChange={handleFileChange}
-                    className="flex-grow text-sm text-slate-500
-                          file:mr-4 file:py-2 file:px-4
-                          file:rounded-full file:border-0
-                          file:text-sm file:font-semibold
-                          file:bg-violet-50 file:text-violet-700
-                          hover:file:bg-violet-100"
-                  />
-                </label>
-                <label className="flex items-center space-x-4">
-                  <textarea
-                    placeholder="Description"
-                    value={description}
-                    onChange={handleDescriptionChange}
-                    className="flex-grow w-full max-w-xl rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  />
-                </label>
+             
+              <label className="flex items-center space-x-4 relative" htmlFor="fileInput">
+  <div
+    className="w-32 h-32 rounded-full border-black border flex items-center justify-center cursor-pointer ml-9 relative"
+  >
+    {!imagePreview && <img src="/Upload.png" alt="Default" className="rounded-full w-18 h-16" />}
+    {imagePreview && <img src={imagePreview} alt="Preview" className="rounded-full w-full h-full" />}
+    {!imagePreview && (
+      <div className="absolute bottom-0 right-0 mb-4 mr-5">
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+        </svg>
+      </div>
+    )}
+  </div>
+</label>
+<input
+  id="fileInput"
+  type="file"
+ 
+  onChange={handleFileChange}
+  className="hidden"
+/>
+
+
+
+                <textarea
+                  placeholder="Description"
+                  value={description}
+                  onChange={handleDescriptionChange}
+                  className="w-full max-w-xl rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 hover:text-black"
+                />
                 <input
                   type="text"
                   name="title"
                   value={data.title}
                   onChange={handleChange}
-                  placeholder="Title"
+                  placeholder="Title ( min-5 & max-15)"
                   className="w-full max-w-xl rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
                 <input
@@ -125,7 +160,7 @@ export default function CardForm() {
                   name="userName"
                   value={data.userName}
                   onChange={handleChange}
-                  placeholder="Username"
+                  placeholder="Username   ( max-6 )"
                   className="w-full max-w-xl rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -133,8 +168,9 @@ export default function CardForm() {
                 <button
                   type="button"
                   className="text-sm font-semibold leading-6 text-gray-900"
+                  onClick={onBackClick}
                 >
-                  Cancel
+                  Back
                 </button>
                 <button
                   type="submit"

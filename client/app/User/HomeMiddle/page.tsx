@@ -73,7 +73,7 @@ export default function HomeMiddle() {
             <button className={mpage.cssbutton}>
               Get started
               <div className={mpage.icon}>
-                <svg
+              <svg
                   height="24"
                   width="24"
                   viewBox="0 0 24 24"

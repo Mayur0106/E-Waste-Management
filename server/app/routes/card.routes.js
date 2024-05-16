@@ -26,7 +26,7 @@ module.exports = function (app) {
     const upload = multer({
         storage: storage,
         limits: { fieldSize: 40 * 1024 * 1024 }
-    })
+    })  
 
     app.post(
         API_CONTEXT + "/auth/createCard",
@@ -36,12 +36,17 @@ module.exports = function (app) {
         controller.createcard
     );
 
+    app.put(
+        API_CONTEXT + "/auth/updateCard/:id",
+        controller.updateCard
+    );
+    
+
     app.get(
         API_CONTEXT + "/auth/getCard",
         controller.getCards
     );
-
-   
+    
 }
 
 

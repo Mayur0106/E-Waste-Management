@@ -5,17 +5,25 @@ import lm from "../styles/card.module.css";
 import Link from "next/link";
 
 interface CardProps {
+  id: string;
   imageUrl: string;
   title: string;
+  userName: string;
+  email: string;
   description: string;
 }
 
 const HorizontalCard: React.FC<CardProps & { initial?: boolean }> = ({
+  id,
   imageUrl,
   title,
+  userName,
+  email,
   description,
   initial = true,
 }) => {
+
+  const user = JSON.parse(localStorage.getItem("user") || "");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {
@@ -69,9 +77,13 @@ const HorizontalCard: React.FC<CardProps & { initial?: boolean }> = ({
     <Modal
       isOpen={isModalOpen}
       onClose={closeModal}
+       id={id}
       title={title}
       description={description}
+      userName={userName}
+      email={email}
       imageUrl={imageUrl}
+      user={user}
     />
   </div>
 )}

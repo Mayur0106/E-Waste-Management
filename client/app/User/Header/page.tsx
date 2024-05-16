@@ -49,15 +49,15 @@ export default function Header() {
   //   imageUrl:
   //     "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
   // };
-  const handleClick1 = () => {
-    router.push("/User/userProfile");
-    console.log("You clicked a profile.");
-  };
+  // const handleClick1 = () => {
+  //   router.push("/User/userProfile");
+  //   console.log("You clicked a profile.");
+  // };
 
-  const handleClick2 = () => {
+  // const handleClick2 = () => {
 
-    console.log("You clicked a settings.");
-  };
+  //   console.log("You clicked a settings.");
+  // };
 
   const handleClick3 = () => {
     localStorage.removeItem("token");
@@ -81,9 +81,9 @@ export default function Header() {
   ];
 
   const userNavigation = [
-    { name: "Your Profile", href: "#", onclick: handleClick1 },
-    { name: "Create Card", href: "/User/CardForm", onclick: handleClick1 },
-    { name: "History", href: "/User/orders", onclick: handleClick2 },
+    { name: "Your Profile", href: "/User/userProfile"},
+    { name: "Card", href: "/User/ShowCard"},
+    { name: "History", href: "/User/orders"},
     { name: "Sign out", href: "#", onclick: handleClick3 },
   ];
 
